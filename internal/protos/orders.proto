@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+option go_package = "github.com/shahzodshafizod/gocloud/internal/orders";
+
+service Orders {
+  rpc CreateOrder(Order) returns (CreateResponse);
+  rpc PayOrder(PayRequest) returns (PayResponse);
+  rpc AssignOrder(AssignRequest) returns (AssignResponse);
+}
+
+message PayRequest {
+  int64 orderID = 1;
+  string paymentID = 2;
+  int64 paidAmount = 3;
+}
+
+message PayResponse { string paymentID = 1; }
+
+message Product {
+  int32 ID = 1;
+  int32 quantity = 2;
+  int32 price = 3;
+}
+
+message Order {
+  string orderID = 1;
+  string customerID = 2;
+  string customerName = 3;
+  string customerPhone = 4;
+  string customerNotifToken = 5;
+  string deliveryAddress = 6;
+  int32 partnerID = 7;
+  string partnerTitle = 8;
+  string partnerBrand = 9;
+  repeated Product products = 10;
+  int64 totalAmount = 11;
+  string paytype = 12;
+}
+
+message CreateResponse {
+  int64 orderID = 1;
+  string webcheckoutURL = 2;
+  string callbackURL = 3;
+}
+
+message AssignRequest {
+  int64 orderID = 1;
+  string delivererID = 2;
+}
+
+message AssignResponse {}

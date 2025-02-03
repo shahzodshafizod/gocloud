@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option go_package = "github.com/shahzodshafizod/gocloud/internal/partners";
+
+import "internal/protos/products.proto";
+import "internal/protos/orders.proto";
+
+service Partners {
+  rpc GetPartnerProducts(GetAllRequest) returns (GetAllResponse);
+  rpc CheckPartnerProducts(CheckRequest) returns (CheckResponse);
+}
+
+message CheckRequest {
+  int32 partnerID = 1;
+  int64 totalAmount = 2;
+  repeated Product products = 3;
+}
+
+message CheckResponse {
+  string partnerTitle = 1;
+  string PartnerBrand = 2;
+  repeated Product products = 3;
+}

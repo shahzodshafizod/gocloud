@@ -1,0 +1,99 @@
+services:
+
+  deliveryapi:
+    build:
+      context: .
+      dockerfile: cmd/api/Dockerfile
+    image: delivery/api
+    container_name: deliveryapi
+    restart: always
+    env_file: configs/config.env
+    environment:
+      - SERVICE_NAME=gateway
+      - SERVICE_ADDRESS=:4401
+      - API_SECRET_KEY=6d89aad1-59b6-4f37-9f82-ae0ccf32ceb5
+      - ORDERS_SERVICE_ADDRESS=deliveryorders:4403
+      - PARTNERS_SERVICE_ADDRESS=deliverypartners:4404
+    ports:
+      - 4401:4401
+    depends_on:
+      - deliveryorders
+      - deliverypartners
+    networks:
+      - gocloud
+
+  deliverynotifications:
+    build:
+      context: .
+      dockerfile: cmd/notifications/Dockerfile
+    image: delivery/notifications
+    container_name: deliverynotifications
+    restart: always
+    env_file: configs/config.env
+    environment:
+      - SERVICE_NAME=notifications
+      - SERVICE_ADDRESS=:4402
+      - MIGRATION_DIR=file:///api/migrations/notifications/
+      - POSTGRES_DSN=postgres://odmin:d511v5rypar01@postgres:5432/notificationsdb?sslmode=disable
+    volumes:
+      - ./migrations/notifications/:/api/migrations/notifications/
+    ports:
+      - 4402:4402
+    networks:
+      - gocloud
+
+  deliveryorders:
+    build:
+      context: .
+      dockerfile: cmd/orders/Dockerfile
+    image: delivery/orders
+    container_name: deliveryorders
+    restart: always
+    env_file: configs/config.env
+    environment:
+      - SERVICE_NAME=orders
+      - SERVICE_ADDRESS=:4403
+      - MIGRATION_DIR=file:///api/migrations/orders/
+      - PAYMENT_CALLBACK_URL=http://localhost:4401/api/v1/orders/pay
+      - READY_CALLBACK_URL=http://localhost:4401/api/v1/orders/pickup
+      - NOTIFICATION_AGENT_ID=87b77778-6a51-4ef7-a9cd-e2eec44aefaf
+      - POSTGRES_DSN=postgres://odmin:d511v5rypar01@postgres:5432/ordersdb?sslmode=disable
+    volumes:
+      - ./migrations/orders/:/api/migrations/orders/
+    ports:
+      - 4403:4403
+    networks:
+      - gocloud
+
+  deliverypartners:
+    build:
+      context: .
+      dockerfile: cmd/partners/Dockerfile
+    image: delivery/partners
+    container_name: deliverypartners
+    restart: always
+    env_file: configs/config.env
+    environment:
+      - SERVICE_NAME=partners
+      - SERVICE_ADDRESS=:4404
+      - MIGRATION_DIR=file:///api/migrations/partners/
+      - POSTGRES_DSN=postgres://odmin:d511v5rypar01@postgres:5432/partnersdb?sslmode=disable
+    volumes:
+      - ./migrations/partners/:/api/migrations/partners/
+    ports:
+      - 4404:4404
+    networks:
+      - gocloud
+
+networks:
+  gocloud:
+    external: true
+
+# build images:
+# docker build -t delivery/api -f cmd/api/Dockerfile .
+# docker build -t delivery/notifications -f cmd/notifications/Dockerfile .
+# docker build -t delivery/orders -f cmd/orders/Dockerfile .
+# docker build -t delivery/partners -f cmd/partners/Dockerfile .
+
+# docker network create gocloud
+# docker compose up -d

@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS agents;
+DROP EXTENSION IF EXISTS "uuid-ossp";

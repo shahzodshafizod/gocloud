@@ -1,0 +1,822 @@
+basePath: /api/v1
+definitions:
+  gateway.assignRequest:
+    properties:
+      order_id:
+        type: integer
+    type: object
+  gateway.changePassword:
+    properties:
+      new_password:
+        description: The new password the user wants to set.
+        minLength: 6
+        type: string
+      old_password:
+        description: The user's current password.
+        minLength: 6
+        type: string
+    required:
+    - new_password
+    - old_password
+    type: object
+  gateway.checkRequest:
+    properties:
+      customer_phone:
+        type: string
+      delivery_address:
+        minLength: 6
+        type: string
+      order_id:
+        type: string
+      partner_id:
+        type: integer
+      paytype:
+        type: string
+      products:
+        items:
+          $ref: '#/definitions/gateway.product'
+        type: array
+      total_amount:
+        type: integer
+    required:
+    - delivery_address
+    - order_id
+    - partner_id
+    - paytype
+    - products
+    - total_amount
+    type: object
+  gateway.confirmChangeEmail:
+    properties:
+      access_token:
+        type: string
+      code:
+        type: string
+      user_id:
+        type: string
+    required:
+    - access_token
+    - code
+    - user_id
+    type: object
+  gateway.confirmRequest:
+    properties:
+      order_id:
+        type: string
+    required:
+    - order_id
+    type: object
+  gateway.confirmResponse:
+    properties:
+      callback_url:
+        type: string
+      order_id:
+        type: integer
+      partner_brand:
+        type: string
+      partner_title:
+        type: string
+      total_amount:
+        type: integer
+      webcheckout_url:
+        type: string
+    type: object
+  gateway.confirmSignUp:
+    properties:
+      code:
+        type: string
+      user_id:
+        type: string
+    required:
+    - code
+    - user_id
+    type: object
+  gateway.payRequest:
+    properties:
+      order_id:
+        type: integer
+      paid_amount:
+        type: integer
+      payment_id:
+        type: string
+    required:
+    - order_id
+    - paid_amount
+    - payment_id
+    type: object
+  gateway.payResponse:
+    properties:
+      payment_id:
+        type: string
+    type: object
+  gateway.pickupRequest:
+    properties:
+      order_id:
+        type: integer
+      pickup_address:
+        type: string
+    required:
+    - pickup_address
+    type: object
+  gateway.product:
+    properties:
+      id:
+        type: integer
+      quantity:
+        type: integer
+    required:
+    - id
+    - quantity
+    type: object
+  gateway.refreshToken:
+    properties:
+      refresh_token:
+        type: string
+    required:
+    - refresh_token
+    type: object
+  gateway.resetPassword:
+    properties:
+      code:
+        type: string
+      password:
+        minLength: 6
+        type: string
+      user_id:
+        type: string
+    required:
+    - code
+    - password
+    - user_id
+    type: object
+  gateway.signIn:
+    properties:
+      email:
+        description: The email address provided during login.
+        type: string
+      password:
+        description: The password provided during login.
+        minLength: 6
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  gateway.signUp:
+    properties:
+      birth_date:
+        description: 'optional: YYYY-MM-DD'
+        type: string
+      email:
+        description: The email address of the user.
+        type: string
+      first_name:
+        description: The first name of the user.
+        minLength: 2
+        type: string
+      last_name:
+        description: The last name of the user.
+        minLength: 2
+        type: string
+      notif_token:
+        description: Notification Token ID
+        type: string
+      password:
+        description: 'The hashed password of the user. Note: It''s important to store
+          passwords securely by hashing them.'
+        minLength: 6
+        type: string
+      phone:
+        description: 'optional: E.164 formatted phone number: [+] [country code] [subscriber
+          number including area code] and can have a maximum of fifteen digits.'
+        type: string
+      role:
+        enum:
+        - client
+        - deliver
+        - partner
+        - admin
+        type: string
+    required:
+    - email
+    - first_name
+    - last_name
+    - password
+    - role
+    type: object
+  gateway.signUpResponse:
+    properties:
+      user_id:
+        type: string
+    type: object
+  gateway.token:
+    properties:
+      access_token:
+        type: string
+      expires_in:
+        type: integer
+      refresh_token:
+        type: string
+    type: object
+  gateway.updateUser:
+    properties:
+      birth_date:
+        description: YYYY-MM-DD
+        type: string
+      email:
+        description: The updated email address of the user.
+        type: string
+      first_name:
+        description: The updated first name of the user.
+        minLength: 2
+        type: string
+      last_name:
+        description: The updated last name of the user.
+        minLength: 2
+        type: string
+      notif_token:
+        description: Notification Token ID
+        type: string
+      phone:
+        description: 'E.164 formatted phone number: [+] [country code] [subscriber
+          number including area code] and can have a maximum of fifteen digits.'
+        type: string
+    type: object
+  gateway.user:
+    properties:
+      birth_date:
+        description: YYYY-MM-DD
+        type: string
+      email:
+        description: The email address of the user.
+        type: string
+      first_name:
+        description: The first name of the user.
+        type: string
+      id:
+        description: A unique identifier for the user.
+        type: string
+      last_name:
+        description: The last name of the user.
+        type: string
+      phone:
+        type: string
+      photo_url:
+        type: string
+      roles:
+        items:
+          type: string
+        type: array
+    type: object
+  products.GetAllResponse:
+    properties:
+      partners:
+        items:
+          $ref: '#/definitions/products.Partner'
+        type: array
+    type: object
+  products.Partner:
+    properties:
+      ID:
+        type: integer
+      brand:
+        type: string
+      products:
+        items:
+          $ref: '#/definitions/products.PartnerProduct'
+        type: array
+      title:
+        type: string
+    type: object
+  products.PartnerProduct:
+    properties:
+      ID:
+        type: integer
+      description:
+        type: string
+      pictureURL:
+        type: string
+      price:
+        type: integer
+      title:
+        type: string
+    type: object
+  response.response:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+      payload: {}
+    type: object
+host: localhost:4401
+info:
+  contact:
+    email: shahzodshafizod@gmail.com
+    name: Shahzod Shafizod
+    url: http://github.com/shahzodshafizod
+  description: Delivery Requests' Entry Point
+  license:
+    name: © Shahzod Shafizod
+  title: Delivery API Gateway
+  version: "1.0"
+paths:
+  /orders/assign:
+    post:
+      consumes:
+      - application/json
+      description: deliver chooses an orders and assigns it to themself
+      parameters:
+      - description: assign order info
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/gateway.assignRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.response'
+      security:
+      - Authorization Token: []
+      summary: Assign the Order
+      tags:
+      - orders
+  /orders/check:
+    post:
+      consumes:
+      - application/json
+      description: user checks an order
+      parameters:
+      - description: check order info
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/gateway.checkRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.response'
+      security:
+      - Authorization Token: []
+      summary: Check Order
+      tags:
+      - orders
+  /orders/confirm:
+    post:
+      consumes:
+      - application/json
+      description: user confirms the order
+      parameters:
+      - description: confirm order info
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/gateway.confirmRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/gateway.confirmResponse'
+              type: object
+      security:
+      - Authorization Token: []
+      summary: Confirm an Order
+      tags:
+      - orders
+  /orders/pay:
+    post:
+      consumes:
+      - application/json
+      description: bank sends order payment callback
+      parameters:
+      - description: pay order info
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/gateway.payRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/gateway.payResponse'
+              type: object
+      summary: Pay an Order Callback
+      tags:
+      - orders
+  /orders/pickup:
+    post:
+      consumes:
+      - application/json
+      description: partner sends a callback that an order is ready
+      parameters:
+      - description: pick up order info
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/gateway.pickupRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.response'
+      summary: Pick Up the Order
+      tags:
+      - orders
+  /partners/products:
+    get:
+      consumes:
+      - application/json
+      description: Returns available products of every partner
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/products.GetAllResponse'
+              type: object
+      security:
+      - Authorization Token: []
+      summary: Get Partner Products
+      tags:
+      - partners
+  /users/delete:
+    delete:
+      consumes:
+      - application/json
+      description: Allows users to delete their accounts. Performs necessary clean-up
+        actions, such as revoking authentication tokens and deactivating users (not
+        removing user data from the system).
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.response'
+      security:
+      - Authorization Token: []
+      summary: Delete User Account
+      tags:
+      - users-auth
+  /users/password/change:
+    put:
+      consumes:
+      - application/json
+      description: Enables users to change their passwords. Validates the old password,
+        ensures password strength for the new password, and updates the password in
+        the database.
+      parameters:
+      - description: change password info
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/gateway.changePassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.response'
+      security:
+      - Authorization Token: []
+      summary: Change User Password
+      tags:
+      - users-auth
+  /users/password/forgot:
+    get:
+      consumes:
+      - application/json
+      description: Initiates the process for resetting a forgotten password. Sends
+        a password reset link or temporary password to the user's email, allowing
+        them to set a new password.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.response'
+      security:
+      - Authorization Token: []
+      summary: Forgot User Password
+      tags:
+      - users-auth
+  /users/password/reset:
+    put:
+      consumes:
+      - application/json
+      description: resets user's password with confirmation code
+      parameters:
+      - description: reset password info
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/gateway.resetPassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.response'
+      security:
+      - Authorization Token: []
+      summary: Reset User Password
+      tags:
+      - users-auth
+  /users/profile:
+    get:
+      consumes:
+      - application/json
+      description: get user profile
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/gateway.user'
+              type: object
+      security:
+      - Authorization Token: []
+      summary: Get User Profile
+      tags:
+      - users-auth
+  /users/signin:
+    post:
+      consumes:
+      - application/json
+      description: Verifies user credentials (username/email and password) during
+        login. If the credentials are valid, generates and returns an authentication
+        token.
+      parameters:
+      - description: sign in info
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/gateway.signIn'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/gateway.token'
+              type: object
+      summary: User SignIn
+      tags:
+      - users-auth
+  /users/signout:
+    post:
+      consumes:
+      - application/json
+      description: log out
+      parameters:
+      - description: sign out info
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/gateway.refreshToken'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.response'
+      security:
+      - Authorization Token: []
+      summary: User SignOut
+      tags:
+      - users-auth
+  /users/signup:
+    post:
+      consumes:
+      - application/json
+      description: create user account
+      parameters:
+      - description: sign up info
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/gateway.signUp'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/gateway.signUpResponse'
+              type: object
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+        "409":
+          description: Already Exists
+        "410":
+          description: Wrong Verification
+        "411":
+          description: Wrong Password
+        "412":
+          description: Invalid Token
+        "415":
+          description: Unsupported Avatar Format
+        "500":
+          description: Internal Server Error
+        "504":
+          description: External Service Error
+      security:
+      - Request Signature: []
+      summary: User SignUp
+      tags:
+      - users-auth
+  /users/signup/confirm:
+    post:
+      consumes:
+      - application/json
+      description: Verifies a user's email address using a verification code. Activates
+        the user's account after successful verification.
+      parameters:
+      - description: confirm sign up info
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/gateway.confirmSignUp'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.response'
+      summary: Confirm User SignUp
+      tags:
+      - users-auth
+  /users/token/refresh/{userid}:
+    post:
+      consumes:
+      - application/json
+      description: refresh user tokens
+      parameters:
+      - description: user id
+        in: path
+        name: userid
+        required: true
+        type: string
+      - description: refresh token info
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/gateway.refreshToken'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/gateway.token'
+              type: object
+      summary: Refresh User Tokens
+      tags:
+      - users-auth
+  /users/update:
+    put:
+      consumes:
+      - application/json
+      description: Allows users to update their profile information, such as name,
+        contact information, or profile picture. Validates input data and updates
+        the corresponding user record in the database.
+      parameters:
+      - description: update user info
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/gateway.updateUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.response'
+      security:
+      - Authorization Token: []
+      summary: Update User Profile
+      tags:
+      - users-auth
+  /users/update/avatar:
+    put:
+      consumes:
+      - multipart/form-data
+      description: updates user profile picture
+      parameters:
+      - description: avatar file
+        in: formData
+        name: avatar
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.response'
+      security:
+      - Authorization Token: []
+      summary: Update User Profile Picture
+      tags:
+      - users-auth
+  /users/update/confirm:
+    put:
+      consumes:
+      - application/json
+      description: Verifies a user's email address using a verification code. Activates
+        the user's account after successful verification.
+      parameters:
+      - description: confirm change email info
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/gateway.confirmChangeEmail'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.response'
+      summary: Confirm Change Email
+      tags:
+      - users-auth
+schemes:
+- http
+securityDefinitions:
+  Authorization Token:
+    in: header
+    name: Authorization
+    type: apiKey
+  Request Signature:
+    in: header
+    name: Signature
+    type: apiKey
+swagger: "2.0"

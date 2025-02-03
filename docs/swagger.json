@@ -1,0 +1,1266 @@
+{
+    "schemes": [
+        "http"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "Delivery Requests' Entry Point",
+        "title": "Delivery API Gateway",
+        "contact": {
+            "name": "Shahzod Shafizod",
+            "url": "http://github.com/shahzodshafizod",
+            "email": "shahzodshafizod@gmail.com"
+        },
+        "license": {
+            "name": "© Shahzod Shafizod"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:4401",
+    "basePath": "/api/v1",
+    "paths": {
+        "/orders/assign": {
+            "post": {
+                "security": [
+                    {
+                        "Authorization Token": []
+                    }
+                ],
+                "description": "deliver chooses an orders and assigns it to themself",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "orders"
+                ],
+                "summary": "Assign the Order",
+                "parameters": [
+                    {
+                        "description": "assign order info",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway.assignRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/orders/check": {
+            "post": {
+                "security": [
+                    {
+                        "Authorization Token": []
+                    }
+                ],
+                "description": "user checks an order",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "orders"
+                ],
+                "summary": "Check Order",
+                "parameters": [
+                    {
+                        "description": "check order info",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway.checkRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/orders/confirm": {
+            "post": {
+                "security": [
+                    {
+                        "Authorization Token": []
+                    }
+                ],
+                "description": "user confirms the order",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "orders"
+                ],
+                "summary": "Confirm an Order",
+                "parameters": [
+                    {
+                        "description": "confirm order info",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway.confirmRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "payload": {
+                                            "$ref": "#/definitions/gateway.confirmResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/orders/pay": {
+            "post": {
+                "description": "bank sends order payment callback",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "orders"
+                ],
+                "summary": "Pay an Order Callback",
+                "parameters": [
+                    {
+                        "description": "pay order info",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway.payRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "payload": {
+                                            "$ref": "#/definitions/gateway.payResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/orders/pickup": {
+            "post": {
+                "description": "partner sends a callback that an order is ready",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "orders"
+                ],
+                "summary": "Pick Up the Order",
+                "parameters": [
+                    {
+                        "description": "pick up order info",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway.pickupRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/partners/products": {
+            "get": {
+                "security": [
+                    {
+                        "Authorization Token": []
+                    }
+                ],
+                "description": "Returns available products of every partner",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "partners"
+                ],
+                "summary": "Get Partner Products",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "payload": {
+                                            "$ref": "#/definitions/products.GetAllResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/users/delete": {
+            "delete": {
+                "security": [
+                    {
+                        "Authorization Token": []
+                    }
+                ],
+                "description": "Allows users to delete their accounts. Performs necessary clean-up actions, such as revoking authentication tokens and deactivating users (not removing user data from the system).",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users-auth"
+                ],
+                "summary": "Delete User Account",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/password/change": {
+            "put": {
+                "security": [
+                    {
+                        "Authorization Token": []
+                    }
+                ],
+                "description": "Enables users to change their passwords. Validates the old password, ensures password strength for the new password, and updates the password in the database.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users-auth"
+                ],
+                "summary": "Change User Password",
+                "parameters": [
+                    {
+                        "description": "change password info",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway.changePassword"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/password/forgot": {
+            "get": {
+                "security": [
+                    {
+                        "Authorization Token": []
+                    }
+                ],
+                "description": "Initiates the process for resetting a forgotten password. Sends a password reset link or temporary password to the user's email, allowing them to set a new password.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users-auth"
+                ],
+                "summary": "Forgot User Password",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/password/reset": {
+            "put": {
+                "security": [
+                    {
+                        "Authorization Token": []
+                    }
+                ],
+                "description": "resets user's password with confirmation code",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users-auth"
+                ],
+                "summary": "Reset User Password",
+                "parameters": [
+                    {
+                        "description": "reset password info",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway.resetPassword"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/profile": {
+            "get": {
+                "security": [
+                    {
+                        "Authorization Token": []
+                    }
+                ],
+                "description": "get user profile",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users-auth"
+                ],
+                "summary": "Get User Profile",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "payload": {
+                                            "$ref": "#/definitions/gateway.user"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/users/signin": {
+            "post": {
+                "description": "Verifies user credentials (username/email and password) during login. If the credentials are valid, generates and returns an authentication token.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users-auth"
+                ],
+                "summary": "User SignIn",
+                "parameters": [
+                    {
+                        "description": "sign in info",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway.signIn"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "payload": {
+                                            "$ref": "#/definitions/gateway.token"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/users/signout": {
+            "post": {
+                "security": [
+                    {
+                        "Authorization Token": []
+                    }
+                ],
+                "description": "log out",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users-auth"
+                ],
+                "summary": "User SignOut",
+                "parameters": [
+                    {
+                        "description": "sign out info",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway.refreshToken"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/signup": {
+            "post": {
+                "security": [
+                    {
+                        "Request Signature": []
+                    }
+                ],
+                "description": "create user account",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users-auth"
+                ],
+                "summary": "User SignUp",
+                "parameters": [
+                    {
+                        "description": "sign up info",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway.signUp"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "payload": {
+                                            "$ref": "#/definitions/gateway.signUpResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "409": {
+                        "description": "Already Exists"
+                    },
+                    "410": {
+                        "description": "Wrong Verification"
+                    },
+                    "411": {
+                        "description": "Wrong Password"
+                    },
+                    "412": {
+                        "description": "Invalid Token"
+                    },
+                    "415": {
+                        "description": "Unsupported Avatar Format"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "504": {
+                        "description": "External Service Error"
+                    }
+                }
+            }
+        },
+        "/users/signup/confirm": {
+            "post": {
+                "description": "Verifies a user's email address using a verification code. Activates the user's account after successful verification.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users-auth"
+                ],
+                "summary": "Confirm User SignUp",
+                "parameters": [
+                    {
+                        "description": "confirm sign up info",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway.confirmSignUp"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/token/refresh/{userid}": {
+            "post": {
+                "description": "refresh user tokens",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users-auth"
+                ],
+                "summary": "Refresh User Tokens",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "userid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "refresh token info",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway.refreshToken"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "payload": {
+                                            "$ref": "#/definitions/gateway.token"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/users/update": {
+            "put": {
+                "security": [
+                    {
+                        "Authorization Token": []
+                    }
+                ],
+                "description": "Allows users to update their profile information, such as name, contact information, or profile picture. Validates input data and updates the corresponding user record in the database.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users-auth"
+                ],
+                "summary": "Update User Profile",
+                "parameters": [
+                    {
+                        "description": "update user info",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway.updateUser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/update/avatar": {
+            "put": {
+                "security": [
+                    {
+                        "Authorization Token": []
+                    }
+                ],
+                "description": "updates user profile picture",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users-auth"
+                ],
+                "summary": "Update User Profile Picture",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "avatar file",
+                        "name": "avatar",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/update/confirm": {
+            "put": {
+                "description": "Verifies a user's email address using a verification code. Activates the user's account after successful verification.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users-auth"
+                ],
+                "summary": "Confirm Change Email",
+                "parameters": [
+                    {
+                        "description": "confirm change email info",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway.confirmChangeEmail"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "gateway.assignRequest": {
+            "type": "object",
+            "properties": {
+                "order_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "gateway.changePassword": {
+            "type": "object",
+            "required": [
+                "new_password",
+                "old_password"
+            ],
+            "properties": {
+                "new_password": {
+                    "description": "The new password the user wants to set.",
+                    "type": "string",
+                    "minLength": 6
+                },
+                "old_password": {
+                    "description": "The user's current password.",
+                    "type": "string",
+                    "minLength": 6
+                }
+            }
+        },
+        "gateway.checkRequest": {
+            "type": "object",
+            "required": [
+                "delivery_address",
+                "order_id",
+                "partner_id",
+                "paytype",
+                "products",
+                "total_amount"
+            ],
+            "properties": {
+                "customer_phone": {
+                    "type": "string"
+                },
+                "delivery_address": {
+                    "type": "string",
+                    "minLength": 6
+                },
+                "order_id": {
+                    "type": "string"
+                },
+                "partner_id": {
+                    "type": "integer"
+                },
+                "paytype": {
+                    "type": "string"
+                },
+                "products": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/gateway.product"
+                    }
+                },
+                "total_amount": {
+                    "type": "integer"
+                }
+            }
+        },
+        "gateway.confirmChangeEmail": {
+            "type": "object",
+            "required": [
+                "access_token",
+                "code",
+                "user_id"
+            ],
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "gateway.confirmRequest": {
+            "type": "object",
+            "required": [
+                "order_id"
+            ],
+            "properties": {
+                "order_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "gateway.confirmResponse": {
+            "type": "object",
+            "properties": {
+                "callback_url": {
+                    "type": "string"
+                },
+                "order_id": {
+                    "type": "integer"
+                },
+                "partner_brand": {
+                    "type": "string"
+                },
+                "partner_title": {
+                    "type": "string"
+                },
+                "total_amount": {
+                    "type": "integer"
+                },
+                "webcheckout_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "gateway.confirmSignUp": {
+            "type": "object",
+            "required": [
+                "code",
+                "user_id"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "gateway.payRequest": {
+            "type": "object",
+            "required": [
+                "order_id",
+                "paid_amount",
+                "payment_id"
+            ],
+            "properties": {
+                "order_id": {
+                    "type": "integer"
+                },
+                "paid_amount": {
+                    "type": "integer"
+                },
+                "payment_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "gateway.payResponse": {
+            "type": "object",
+            "properties": {
+                "payment_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "gateway.pickupRequest": {
+            "type": "object",
+            "required": [
+                "pickup_address"
+            ],
+            "properties": {
+                "order_id": {
+                    "type": "integer"
+                },
+                "pickup_address": {
+                    "type": "string"
+                }
+            }
+        },
+        "gateway.product": {
+            "type": "object",
+            "required": [
+                "id",
+                "quantity"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "integer"
+                }
+            }
+        },
+        "gateway.refreshToken": {
+            "type": "object",
+            "required": [
+                "refresh_token"
+            ],
+            "properties": {
+                "refresh_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "gateway.resetPassword": {
+            "type": "object",
+            "required": [
+                "code",
+                "password",
+                "user_id"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string",
+                    "minLength": 6
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "gateway.signIn": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "description": "The email address provided during login.",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "The password provided during login.",
+                    "type": "string",
+                    "minLength": 6
+                }
+            }
+        },
+        "gateway.signUp": {
+            "type": "object",
+            "required": [
+                "email",
+                "first_name",
+                "last_name",
+                "password",
+                "role"
+            ],
+            "properties": {
+                "birth_date": {
+                    "description": "optional: YYYY-MM-DD",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "The email address of the user.",
+                    "type": "string"
+                },
+                "first_name": {
+                    "description": "The first name of the user.",
+                    "type": "string",
+                    "minLength": 2
+                },
+                "last_name": {
+                    "description": "The last name of the user.",
+                    "type": "string",
+                    "minLength": 2
+                },
+                "notif_token": {
+                    "description": "Notification Token ID",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "The hashed password of the user. Note: It's important to store passwords securely by hashing them.",
+                    "type": "string",
+                    "minLength": 6
+                },
+                "phone": {
+                    "description": "optional: E.164 formatted phone number: [+] [country code] [subscriber number including area code] and can have a maximum of fifteen digits.",
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string",
+                    "enum": [
+                        "client",
+                        "deliver",
+                        "partner",
+                        "admin"
+                    ]
+                }
+            }
+        },
+        "gateway.signUpResponse": {
+            "type": "object",
+            "properties": {
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "gateway.token": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "expires_in": {
+                    "type": "integer"
+                },
+                "refresh_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "gateway.updateUser": {
+            "type": "object",
+            "properties": {
+                "birth_date": {
+                    "description": "YYYY-MM-DD",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "The updated email address of the user.",
+                    "type": "string"
+                },
+                "first_name": {
+                    "description": "The updated first name of the user.",
+                    "type": "string",
+                    "minLength": 2
+                },
+                "last_name": {
+                    "description": "The updated last name of the user.",
+                    "type": "string",
+                    "minLength": 2
+                },
+                "notif_token": {
+                    "description": "Notification Token ID",
+                    "type": "string"
+                },
+                "phone": {
+                    "description": "E.164 formatted phone number: [+] [country code] [subscriber number including area code] and can have a maximum of fifteen digits.",
+                    "type": "string"
+                }
+            }
+        },
+        "gateway.user": {
+            "type": "object",
+            "properties": {
+                "birth_date": {
+                    "description": "YYYY-MM-DD",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "The email address of the user.",
+                    "type": "string"
+                },
+                "first_name": {
+                    "description": "The first name of the user.",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "A unique identifier for the user.",
+                    "type": "string"
+                },
+                "last_name": {
+                    "description": "The last name of the user.",
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "photo_url": {
+                    "type": "string"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "products.GetAllResponse": {
+            "type": "object",
+            "properties": {
+                "partners": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/products.Partner"
+                    }
+                }
+            }
+        },
+        "products.Partner": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "type": "integer"
+                },
+                "brand": {
+                    "type": "string"
+                },
+                "products": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/products.PartnerProduct"
+                    }
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "products.PartnerProduct": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "pictureURL": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.response": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "payload": {}
+            }
+        }
+    },
+    "securityDefinitions": {
+        "Authorization Token": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        },
+        "Request Signature": {
+            "type": "apiKey",
+            "name": "Signature",
+            "in": "header"
+        }
+    }
+}

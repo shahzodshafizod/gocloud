@@ -1,0 +1,4 @@
+DROP TABLE IF EXISTS partners;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS available;
+DROP EXTENSION IF EXISTS "uuid-ossp";

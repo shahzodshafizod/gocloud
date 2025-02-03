@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option go_package = "github.com/shahzodshafizod/gocloud/internal/products";
+
+message GetAllRequest {}
+
+message PartnerProduct {
+    int32 ID = 1;
+    string title = 2;
+    string description = 3;
+    string pictureURL = 4;
+    int32 price = 5;
+}
+
+message Partner {
+    int32 ID = 1;
+    string title = 2;
+    string brand = 3;
+    repeated PartnerProduct products = 4;
+}
+
+message GetAllResponse {
+    repeated Partner partners = 1;
+}
