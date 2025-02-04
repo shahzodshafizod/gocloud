@@ -7,6 +7,11 @@ import (
 	"github.com/shahzodshafizod/gocloud/internal/gateway"
 	"github.com/shahzodshafizod/gocloud/internal/orders"
 	"github.com/shahzodshafizod/gocloud/internal/partners"
+	"github.com/shahzodshafizod/gocloud/pkg"
+	"github.com/shahzodshafizod/gocloud/pkg/onprem"
+	"github.com/shahzodshafizod/gocloud/pkg/onprem/keycloak"
+	"github.com/shahzodshafizod/gocloud/pkg/onprem/queue/rabbitmq"
+	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"go.uber.org/fx"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -36,6 +41,7 @@ func main() {
 			conn, err := grpc.NewClient(
 				os.Getenv("PARTNERS_SERVICE_ADDRESS"),
 				grpc.WithTransportCredentials(insecure.NewCredentials()),
+				grpc.WithStatsHandler(otelgrpc.NewClientHandler()),
 			)
 			if err != nil {
 				return nil, errors.Wrap(err, "grpc.Dial")
@@ -46,6 +52,7 @@ func main() {
 			conn, err := grpc.NewClient(
 				os.Getenv("ORDERS_SERVICE_ADDRESS"),
 				grpc.WithTransportCredentials(insecure.NewCredentials()),
+				grpc.WithStatsHandler(otelgrpc.NewClientHandler()),
 			)
 			if err != nil {
 				return nil, errors.Wrap(err, "grpc.Dial")
@@ -53,19 +60,19 @@ func main() {
 			return orders.NewOrdersClient(conn), nil
 		}),
 
-		// fx.Provide(NewCache),
-		// fx.Provide(NewAuth),
-		// fx.Provide(NewStorage),
-		// fx.Provide(func() (pkg.Tracer, error) {
-		// 	return NewTracer(os.Getenv("SERVICE_NAME"))
-		// }),
-		// fx.Provide(func(tracer pkg.Tracer) (pkg.Queue, error) {
-		// 	return NewQueue(os.Getenv("SERVICE_NAME"), tracer)
-		// }),
+		fx.Provide(onprem.NewCache),
+		fx.Provide(keycloak.NewAuth),
+		fx.Provide(onprem.NewStorage),
+		fx.Provide(func() (pkg.Tracer, error) {
+			return onprem.NewTracer(os.Getenv("SERVICE_NAME"))
+		}),
+		fx.Provide(func(tracer pkg.Tracer) (pkg.Queue, error) {
+			return rabbitmq.NewQueue(os.Getenv("SERVICE_NAME"), tracer)
+		}),
 
 		fx.Provide(gateway.NewService),
 		fx.Invoke(gateway.NewHandler),
 
-		// fx.NopLogger,
+		fx.NopLogger,
 	).Run()
 }

@@ -1092,8 +1092,8 @@ const docTemplate = `{
                 "role": {
                     "type": "string",
                     "enum": [
-                        "client",
-                        "deliver",
+                        "customer",
+                        "deliverer",
                         "partner",
                         "admin"
                     ]
@@ -1174,6 +1174,9 @@ const docTemplate = `{
                 },
                 "last_name": {
                     "description": "The last name of the user.",
+                    "type": "string"
+                },
+                "notif_token": {
                     "type": "string"
                 },
                 "phone": {

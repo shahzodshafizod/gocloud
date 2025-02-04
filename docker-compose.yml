@@ -7,7 +7,7 @@ services:
     image: delivery/api
     container_name: deliveryapi
     restart: always
-    env_file: configs/config.env
+    env_file: configs/onprem.env
     environment:
       - SERVICE_NAME=gateway
       - SERVICE_ADDRESS=:4401
@@ -29,7 +29,7 @@ services:
     image: delivery/notifications
     container_name: deliverynotifications
     restart: always
-    env_file: configs/config.env
+    env_file: configs/onprem.env
     environment:
       - SERVICE_NAME=notifications
       - SERVICE_ADDRESS=:4402
@@ -49,7 +49,7 @@ services:
     image: delivery/orders
     container_name: deliveryorders
     restart: always
-    env_file: configs/config.env
+    env_file: configs/onprem.env
     environment:
       - SERVICE_NAME=orders
       - SERVICE_ADDRESS=:4403
@@ -72,7 +72,7 @@ services:
     image: delivery/partners
     container_name: deliverypartners
     restart: always
-    env_file: configs/config.env
+    env_file: configs/onprem.env
     environment:
       - SERVICE_NAME=partners
       - SERVICE_ADDRESS=:4404
@@ -88,12 +88,3 @@ services:
 networks:
   gocloud:
     external: true
-
-# build images:
-# docker build -t delivery/api -f cmd/api/Dockerfile .
-# docker build -t delivery/notifications -f cmd/notifications/Dockerfile .
-# docker build -t delivery/orders -f cmd/orders/Dockerfile .
-# docker build -t delivery/partners -f cmd/partners/Dockerfile .
-
-# docker network create gocloud
-# docker compose up -d

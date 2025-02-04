@@ -1,0 +1,58 @@
+settings:
+  Visit: http://localhost:8080/admin/master/console/
+  Create realm: delivery
+  Users:
+    Username: admin
+    Email: admin@delivery.com
+    Email verified: true
+    Credentials: parol
+    Role mapping (Filter by clients): ["realm-admin"]
+  Realm settings:
+    Login:
+      Email as username: true
+      Verify email: true
+    Email:
+      From: info@delivery.com
+      Host: mailhog
+      Port: 1025
+    Sessions:
+      SSO Session Idle: SSO Session Max (10 Hours)
+      Refresh Token Lifespan: Min(SSO Session Idle, SSO Session Max)
+    Tokens:
+      Access Token Lifespan: 2 Hours
+  Clients:
+    Client type: OpenID Connect
+    Client ID: oauth
+    Client authentication: true
+    Authorization: true
+    Service accounts roles (Filter by clients): ["realm-admin"]
+    Client scopes:
+      oauth-dedicated:
+        Mappers:
+          button: Add mapper
+          From predefined mappers: select
+            - birthdate
+            - phone number
+            - picture
+          By configuration: User Attribute
+            - notification token (notif_token, notif_token)
+            # All selected attributes must have "Add to userinfo" turned ON
+    Credentials:
+      Client Secret: -> configs/config.env (KEYCLOAK_CLIENT_SECRET)
+  Realm roles:
+    - customer
+    - deliverer
+    - partner
+    - admin
+
+export commands: |
+  docker exec -it keycloak /bin/bash
+  /opt/keycloak/bin/kc.sh export --file /tmp/keycloak.json
+  mkdir pkg/onprem/keycloak/import/
+  docker cp keycloak:/tmp/keycloak.json pkg/onprem/keycloak/import/
+  in keycloak.json: remove
+    - realm.master
+    - authorizationSettings
+
+ready:
+  Visit: http://localhost:8080/admin/delivery/console/

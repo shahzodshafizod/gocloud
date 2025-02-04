@@ -1,0 +1,170 @@
+services:
+
+  keycloakpostgres:
+    image: postgres:latest
+    container_name: keycloakpostgres
+    environment:
+      - POSTGRES_DB=keycloakdb
+      - POSTGRES_USER=keycloakuser
+      - POSTGRES_PASSWORD=keycloakpassword
+    volumes:
+      - keycloakpostgres_data:/var/lib/postgresql/data
+    ports:
+      - 5433:5432
+    networks:
+      - gocloud
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    restart: always
+    command: start --import-realm
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=parol
+      - KC_HOSTNAME_URL=http://localhost:8080
+      - KC_PROXY=edge
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://keycloakpostgres:5432/keycloakdb?ssl=allow
+      - KC_DB_USERNAME=keycloakuser
+      - KC_DB_PASSWORD=keycloakpassword
+    depends_on:
+      - keycloakpostgres
+    volumes:
+      - ./keycloak/import:/opt/keycloak/data/import
+    ports:
+      - 8443:8443
+      - 8080:8080
+    networks:
+      - gocloud
+
+  redis:
+    image: redis
+    restart: on-failure
+    container_name: redis
+    command: '--requirepass ed1821bc8bb645a298717c0af3382262'
+    ports:
+      - 6379:6379
+    networks:
+      - gocloud
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - 1025:1025 # smtp server
+      - 8025:8025 # web ui
+    networks:
+      - gocloud
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: qwerty
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - gocloud
+
+  onesignal:
+    image: nginx
+    container_name: onesignal
+    restart: always
+    volumes:
+      - ./onesignal:/usr/share/nginx/html
+    ports:
+      - 4444:80
+    networks:
+      - gocloud
+
+  postgres:
+    image: postgres
+    restart: on-failure
+    container_name: postgres
+    environment:
+      - TZ=Asia/Dushanbe
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=odmin
+      - POSTGRES_PASSWORD=d511v5rypar01
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - gocloud
+
+  rabbitmq:
+    image: rabbitmq
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+    ports:
+      - 15672:15672
+      - 5672:5672
+    networks:
+      - gocloud
+  jetstream:
+    image: nats
+    container_name: jetstream
+    command: -js
+    ports:
+      - 4222:4222
+      - 8222:8222
+      - 6222:6222
+    networks:
+      - gocloud
+
+  minio:
+    image: quay.io/minio/minio
+    container_name: minio
+    command: server /data --console-address ":9090"
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=password
+    ports:
+      - 9000:9000 # api
+      - 9090:9090 # console panel
+    volumes:
+      - minio_data:/data
+    networks:
+      - gocloud
+
+  jaeger:
+    image: jaegertracing/all-in-one
+    container_name: jaeger
+    ports:
+      - 16686:16686 # for console panel
+      - 4317:4317 # for gRPC
+      - 4318:4318 # for HTTP: https://localhost:4318/v1/traces.
+    environment:
+      # - LOG_LEVEL=debug
+      # - COLLECTOR_ZIPKIN_HOST_PORT=:9411
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - gocloud
+
+volumes:
+  minio_data:
+    name: minio_data
+  postgres_data:
+    name: postgres_data
+  mongo_data:
+    name: mongo_data
+  keycloakpostgres_data:
+    name: keycloakpostgres_data
+
+networks:
+  gocloud:
+    external: true
+
+# docker exec -it redis redis-cli
+# $ AUTH ed1821bc8bb645a298717c0af3382262
+
+# docker exec -it mongo bash
+# $ mongosh -u admin -p qwerty
+# $ show dbs

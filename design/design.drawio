@@ -106,13 +106,13 @@
         <mxCell id="rH7qJKcRPoRjpmIgMlnR-3" value="&lt;font size=&quot;1&quot; style=&quot;&quot;&gt;&lt;b style=&quot;font-size: 12px;&quot;&gt;Notification&lt;br&gt;Provider&lt;/b&gt;&lt;/font&gt;" style="html=1;strokeWidth=1;shadow=0;dashed=0;shape=mxgraph.ios7.misc.notification;fillColor=#00FFFF;strokeColor=none;buttonText=;strokeColor2=#222222;fontColor=light-dark(#FFFFFF,#FFFFFF);fontSize=8;verticalLabelPosition=bottom;verticalAlign=top;align=center;sketch=0;" parent="M7EQMy-1-1L2Ct21vZ-j-1" vertex="1">
           <mxGeometry x="121" y="80.5" width="39" height="39" as="geometry" />
         </mxCell>
-        <mxCell id="rH7qJKcRPoRjpmIgMlnR-10" value="" style="group" parent="M7EQMy-1-1L2Ct21vZ-j-1" vertex="1" connectable="0">
+        <mxCell id="rH7qJKcRPoRjpmIgMlnR-10" value="" style="group;fontColor=light-dark(#FFFFFF,#FFFFFF);" parent="M7EQMy-1-1L2Ct21vZ-j-1" vertex="1" connectable="0">
           <mxGeometry x="31" y="179.5" width="130" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="rH7qJKcRPoRjpmIgMlnR-7" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=3;strokeColor=#00FFFF;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="rH7qJKcRPoRjpmIgMlnR-10" vertex="1">
+        <mxCell id="rH7qJKcRPoRjpmIgMlnR-7" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=3;strokeColor=#00FFFF;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;fontColor=light-dark(#FFFFFF,#FFFFFF);" parent="rH7qJKcRPoRjpmIgMlnR-10" vertex="1">
           <mxGeometry width="130" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="rH7qJKcRPoRjpmIgMlnR-9" value="" style="group" parent="rH7qJKcRPoRjpmIgMlnR-10" vertex="1" connectable="0">
+        <mxCell id="rH7qJKcRPoRjpmIgMlnR-9" value="" style="group;fontColor=light-dark(#FFFFFF,#FFFFFF);" parent="rH7qJKcRPoRjpmIgMlnR-10" vertex="1" connectable="0">
           <mxGeometry x="19" y="10" width="91" height="32.5" as="geometry" />
         </mxCell>
         <mxCell id="M7EQMy-1-1L2Ct21vZ-j-2" value="&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(255, 255, 255), rgb(255, 255, 255));&quot;&gt;Delivers&lt;/font&gt;&lt;/b&gt;" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shadow=0;dashed=0;strokeWidth=2;shape=mxgraph.android.phone2;strokeColor=#00FFFF;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="rH7qJKcRPoRjpmIgMlnR-9" vertex="1">
@@ -237,13 +237,13 @@
         <mxCell id="Gcm0z0HT6s-OdpQEkj46-26" value="&lt;font style=&quot;&quot; size=&quot;1&quot;&gt;&lt;b style=&quot;font-size: 12px;&quot;&gt;Notification&lt;br&gt;Provider&lt;/b&gt;&lt;/font&gt;" style="html=1;strokeWidth=1;shadow=0;dashed=0;shape=mxgraph.ios7.misc.notification;fillColor=#00FFFF;strokeColor=none;buttonText=;strokeColor2=#222222;fontColor=light-dark(#FFFFFF,#FFFFFF);fontSize=8;verticalLabelPosition=bottom;verticalAlign=top;align=center;rounded=0;" parent="Gcm0z0HT6s-OdpQEkj46-1" vertex="1">
           <mxGeometry x="121" y="80.5" width="39" height="39" as="geometry" />
         </mxCell>
-        <mxCell id="Gcm0z0HT6s-OdpQEkj46-27" value="" style="group;rounded=0;" parent="Gcm0z0HT6s-OdpQEkj46-1" vertex="1" connectable="0">
+        <mxCell id="Gcm0z0HT6s-OdpQEkj46-27" value="" style="group;rounded=0;fontColor=light-dark(#FFFFFF,#FFFFFF);" parent="Gcm0z0HT6s-OdpQEkj46-1" vertex="1" connectable="0">
           <mxGeometry x="31" y="179.5" width="130" height="80" as="geometry" />
         </mxCell>
         <mxCell id="Gcm0z0HT6s-OdpQEkj46-28" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=3;strokeColor=#00FFFF;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="Gcm0z0HT6s-OdpQEkj46-27" vertex="1">
           <mxGeometry width="130" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="Gcm0z0HT6s-OdpQEkj46-29" value="" style="group;rounded=0;" parent="Gcm0z0HT6s-OdpQEkj46-27" vertex="1" connectable="0">
+        <mxCell id="Gcm0z0HT6s-OdpQEkj46-29" value="" style="group;rounded=0;fontColor=light-dark(#FFFFFF,#FFFFFF);" parent="Gcm0z0HT6s-OdpQEkj46-27" vertex="1" connectable="0">
           <mxGeometry x="19" y="10" width="91" height="32.5" as="geometry" />
         </mxCell>
         <mxCell id="Gcm0z0HT6s-OdpQEkj46-30" value="&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(255, 255, 255), rgb(255, 255, 255));&quot;&gt;Delivers&lt;/font&gt;&lt;/b&gt;" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shadow=0;dashed=0;strokeWidth=2;shape=mxgraph.android.phone2;strokeColor=#00FFFF;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;rounded=0;" parent="Gcm0z0HT6s-OdpQEkj46-29" vertex="1">
@@ -371,13 +371,13 @@
         <mxCell id="p0UXmPizRpsn8-ae0NPF-26" value="&lt;font style=&quot;&quot; size=&quot;1&quot;&gt;&lt;b style=&quot;font-size: 12px;&quot;&gt;Notification&lt;br&gt;Provider&lt;/b&gt;&lt;/font&gt;" style="html=1;strokeWidth=1;shadow=0;dashed=0;shape=mxgraph.ios7.misc.notification;fillColor=#00FFFF;strokeColor=none;buttonText=;strokeColor2=#222222;fontColor=light-dark(#FFFFFF,#FFFFFF);fontSize=8;verticalLabelPosition=bottom;verticalAlign=top;align=center;sketch=0;" parent="p0UXmPizRpsn8-ae0NPF-1" vertex="1">
           <mxGeometry x="121" y="80.5" width="39" height="39" as="geometry" />
         </mxCell>
-        <mxCell id="p0UXmPizRpsn8-ae0NPF-27" value="" style="group" parent="p0UXmPizRpsn8-ae0NPF-1" vertex="1" connectable="0">
+        <mxCell id="p0UXmPizRpsn8-ae0NPF-27" value="" style="group;fontColor=light-dark(#FFFFFF,#FFFFFF);" parent="p0UXmPizRpsn8-ae0NPF-1" vertex="1" connectable="0">
           <mxGeometry x="31" y="179.5" width="130" height="80" as="geometry" />
         </mxCell>
         <mxCell id="p0UXmPizRpsn8-ae0NPF-28" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=3;strokeColor=#00FFFF;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="p0UXmPizRpsn8-ae0NPF-27" vertex="1">
           <mxGeometry width="130" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="p0UXmPizRpsn8-ae0NPF-29" value="" style="group" parent="p0UXmPizRpsn8-ae0NPF-27" vertex="1" connectable="0">
+        <mxCell id="p0UXmPizRpsn8-ae0NPF-29" value="" style="group;fontColor=light-dark(#FFFFFF,#FFFFFF);" parent="p0UXmPizRpsn8-ae0NPF-27" vertex="1" connectable="0">
           <mxGeometry x="19" y="10" width="91" height="32.5" as="geometry" />
         </mxCell>
         <mxCell id="p0UXmPizRpsn8-ae0NPF-30" value="&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(255, 255, 255), rgb(255, 255, 255));&quot;&gt;Delivers&lt;/font&gt;&lt;/b&gt;" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shadow=0;dashed=0;strokeWidth=2;shape=mxgraph.android.phone2;strokeColor=#00FFFF;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="p0UXmPizRpsn8-ae0NPF-29" vertex="1">
@@ -504,13 +504,13 @@
         <mxCell id="O98ZTevW-N5BT5hL2_yn-26" value="&lt;font style=&quot;&quot; size=&quot;1&quot;&gt;&lt;b style=&quot;font-size: 12px;&quot;&gt;Notification&lt;br&gt;Provider&lt;/b&gt;&lt;/font&gt;" style="html=1;strokeWidth=1;shadow=0;dashed=0;shape=mxgraph.ios7.misc.notification;fillColor=#00FFFF;strokeColor=none;buttonText=;strokeColor2=#222222;fontColor=light-dark(#FFFFFF,#FFFFFF);fontSize=8;verticalLabelPosition=bottom;verticalAlign=top;align=center;sketch=0;" parent="O98ZTevW-N5BT5hL2_yn-1" vertex="1">
           <mxGeometry x="121" y="80.5" width="39" height="39" as="geometry" />
         </mxCell>
-        <mxCell id="O98ZTevW-N5BT5hL2_yn-27" value="" style="group" parent="O98ZTevW-N5BT5hL2_yn-1" vertex="1" connectable="0">
+        <mxCell id="O98ZTevW-N5BT5hL2_yn-27" value="" style="group;fontColor=light-dark(#FFFFFF,#FFFFFF);" parent="O98ZTevW-N5BT5hL2_yn-1" vertex="1" connectable="0">
           <mxGeometry x="31" y="179.5" width="130" height="80" as="geometry" />
         </mxCell>
         <mxCell id="O98ZTevW-N5BT5hL2_yn-28" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=3;strokeColor=#00FFFF;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="O98ZTevW-N5BT5hL2_yn-27" vertex="1">
           <mxGeometry width="130" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="O98ZTevW-N5BT5hL2_yn-29" value="" style="group" parent="O98ZTevW-N5BT5hL2_yn-27" vertex="1" connectable="0">
+        <mxCell id="O98ZTevW-N5BT5hL2_yn-29" value="" style="group;fontColor=#FFFFFF;" parent="O98ZTevW-N5BT5hL2_yn-27" vertex="1" connectable="0">
           <mxGeometry x="19" y="10" width="91" height="32.5" as="geometry" />
         </mxCell>
         <mxCell id="O98ZTevW-N5BT5hL2_yn-30" value="&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(255, 255, 255), rgb(255, 255, 255));&quot;&gt;Delivers&lt;/font&gt;&lt;/b&gt;" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shadow=0;dashed=0;strokeWidth=2;shape=mxgraph.android.phone2;strokeColor=#00FFFF;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="O98ZTevW-N5BT5hL2_yn-29" vertex="1">
@@ -647,13 +647,13 @@
         <mxCell id="cqetIGOlyj0peOtunbrs-26" value="&lt;font style=&quot;&quot; size=&quot;1&quot;&gt;&lt;b style=&quot;font-size: 12px;&quot;&gt;Notification&lt;br&gt;Provider&lt;/b&gt;&lt;/font&gt;" style="html=1;strokeWidth=1;shadow=0;dashed=0;shape=mxgraph.ios7.misc.notification;fillColor=#00FFFF;strokeColor=none;buttonText=;strokeColor2=#222222;fontColor=light-dark(#FFFFFF,#FFFFFF);fontSize=8;verticalLabelPosition=bottom;verticalAlign=top;align=center;sketch=0;" parent="cqetIGOlyj0peOtunbrs-1" vertex="1">
           <mxGeometry x="121" y="80.5" width="39" height="39" as="geometry" />
         </mxCell>
-        <mxCell id="cqetIGOlyj0peOtunbrs-27" value="" style="group" parent="cqetIGOlyj0peOtunbrs-1" vertex="1" connectable="0">
+        <mxCell id="cqetIGOlyj0peOtunbrs-27" value="" style="group;fontColor=light-dark(#FFFFFF,#FFFFFF);" parent="cqetIGOlyj0peOtunbrs-1" vertex="1" connectable="0">
           <mxGeometry x="31" y="179.5" width="130" height="80" as="geometry" />
         </mxCell>
         <mxCell id="cqetIGOlyj0peOtunbrs-28" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=3;strokeColor=#00FFFF;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="cqetIGOlyj0peOtunbrs-27" vertex="1">
           <mxGeometry width="130" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="cqetIGOlyj0peOtunbrs-29" value="" style="group" parent="cqetIGOlyj0peOtunbrs-27" vertex="1" connectable="0">
+        <mxCell id="cqetIGOlyj0peOtunbrs-29" value="" style="group;fontColor=light-dark(#FFFFFF,#FFFFFF);" parent="cqetIGOlyj0peOtunbrs-27" vertex="1" connectable="0">
           <mxGeometry x="19" y="10" width="91" height="32.5" as="geometry" />
         </mxCell>
         <mxCell id="cqetIGOlyj0peOtunbrs-30" value="&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(255, 255, 255), rgb(255, 255, 255));&quot;&gt;Delivers&lt;/font&gt;&lt;/b&gt;" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shadow=0;dashed=0;strokeWidth=2;shape=mxgraph.android.phone2;strokeColor=#00FFFF;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="cqetIGOlyj0peOtunbrs-29" vertex="1">
@@ -833,13 +833,13 @@
         <mxCell id="McBmVW0WZAMofeVAh4YD-26" value="&lt;font style=&quot;&quot; size=&quot;1&quot;&gt;&lt;b style=&quot;font-size: 12px;&quot;&gt;Notification&lt;br&gt;Provider&lt;/b&gt;&lt;/font&gt;" style="html=1;strokeWidth=1;shadow=0;dashed=0;shape=mxgraph.ios7.misc.notification;fillColor=#00FFFF;strokeColor=none;buttonText=;strokeColor2=#222222;fontColor=light-dark(#FFFFFF,#FFFFFF);fontSize=8;verticalLabelPosition=bottom;verticalAlign=top;align=center;sketch=0;" parent="McBmVW0WZAMofeVAh4YD-1" vertex="1">
           <mxGeometry x="121" y="80.5" width="39" height="39" as="geometry" />
         </mxCell>
-        <mxCell id="McBmVW0WZAMofeVAh4YD-27" value="" style="group" parent="McBmVW0WZAMofeVAh4YD-1" vertex="1" connectable="0">
+        <mxCell id="McBmVW0WZAMofeVAh4YD-27" value="" style="group;fontColor=light-dark(#FFFFFF,#FFFFFF);" parent="McBmVW0WZAMofeVAh4YD-1" vertex="1" connectable="0">
           <mxGeometry x="31" y="179.5" width="130" height="80" as="geometry" />
         </mxCell>
         <mxCell id="McBmVW0WZAMofeVAh4YD-28" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=3;strokeColor=#00FFFF;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="McBmVW0WZAMofeVAh4YD-27" vertex="1">
           <mxGeometry width="130" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="McBmVW0WZAMofeVAh4YD-29" value="" style="group" parent="McBmVW0WZAMofeVAh4YD-27" vertex="1" connectable="0">
+        <mxCell id="McBmVW0WZAMofeVAh4YD-29" value="" style="group;fontColor=light-dark(#FFFFFF,#FFFFFF);" parent="McBmVW0WZAMofeVAh4YD-27" vertex="1" connectable="0">
           <mxGeometry x="19" y="10" width="91" height="32.5" as="geometry" />
         </mxCell>
         <mxCell id="McBmVW0WZAMofeVAh4YD-30" value="&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(255, 255, 255), rgb(255, 255, 255));&quot;&gt;Delivers&lt;/font&gt;&lt;/b&gt;" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shadow=0;dashed=0;strokeWidth=2;shape=mxgraph.android.phone2;strokeColor=#00FFFF;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="McBmVW0WZAMofeVAh4YD-29" vertex="1">
@@ -975,13 +975,13 @@
         <mxCell id="8C2XLOG05fPeGR2RwaDI-26" value="&lt;font style=&quot;&quot; size=&quot;1&quot;&gt;&lt;b style=&quot;font-size: 12px;&quot;&gt;Notification&lt;br&gt;Provider&lt;/b&gt;&lt;/font&gt;" style="html=1;strokeWidth=1;shadow=0;dashed=0;shape=mxgraph.ios7.misc.notification;fillColor=#00FFFF;strokeColor=none;buttonText=;strokeColor2=#222222;fontColor=light-dark(#FFFFFF,#FFFFFF);fontSize=8;verticalLabelPosition=bottom;verticalAlign=top;align=center;sketch=0;" parent="8C2XLOG05fPeGR2RwaDI-1" vertex="1">
           <mxGeometry x="121" y="80.5" width="39" height="39" as="geometry" />
         </mxCell>
-        <mxCell id="8C2XLOG05fPeGR2RwaDI-27" value="" style="group" parent="8C2XLOG05fPeGR2RwaDI-1" vertex="1" connectable="0">
+        <mxCell id="8C2XLOG05fPeGR2RwaDI-27" value="" style="group;fontColor=light-dark(#FFFFFF,#FFFFFF);" parent="8C2XLOG05fPeGR2RwaDI-1" vertex="1" connectable="0">
           <mxGeometry x="31" y="179.5" width="130" height="80" as="geometry" />
         </mxCell>
         <mxCell id="8C2XLOG05fPeGR2RwaDI-28" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=3;strokeColor=#00FFFF;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="8C2XLOG05fPeGR2RwaDI-27" vertex="1">
           <mxGeometry width="130" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="8C2XLOG05fPeGR2RwaDI-29" value="" style="group" parent="8C2XLOG05fPeGR2RwaDI-27" vertex="1" connectable="0">
+        <mxCell id="8C2XLOG05fPeGR2RwaDI-29" value="" style="group;fontColor=light-dark(#FFFFFF,#FFFFFF);" parent="8C2XLOG05fPeGR2RwaDI-27" vertex="1" connectable="0">
           <mxGeometry x="19" y="10" width="91" height="32.5" as="geometry" />
         </mxCell>
         <mxCell id="8C2XLOG05fPeGR2RwaDI-30" value="&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(255, 255, 255), rgb(255, 255, 255));&quot;&gt;Delivers&lt;/font&gt;&lt;/b&gt;" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shadow=0;dashed=0;strokeWidth=2;shape=mxgraph.android.phone2;strokeColor=#00FFFF;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="8C2XLOG05fPeGR2RwaDI-29" vertex="1">
@@ -1140,13 +1140,13 @@
         <mxCell id="tTdPIshzSZhNJPQvrP4a-26" value="&lt;font style=&quot;&quot; size=&quot;1&quot;&gt;&lt;b style=&quot;font-size: 12px;&quot;&gt;Notification&lt;br&gt;Provider&lt;/b&gt;&lt;/font&gt;" style="html=1;strokeWidth=1;shadow=0;dashed=0;shape=mxgraph.ios7.misc.notification;fillColor=#00FFFF;strokeColor=none;buttonText=;strokeColor2=#222222;fontColor=light-dark(#FFFFFF,#FFFFFF);fontSize=8;verticalLabelPosition=bottom;verticalAlign=top;align=center;sketch=0;" parent="tTdPIshzSZhNJPQvrP4a-1" vertex="1">
           <mxGeometry x="121" y="80.5" width="39" height="39" as="geometry" />
         </mxCell>
-        <mxCell id="tTdPIshzSZhNJPQvrP4a-27" value="" style="group" parent="tTdPIshzSZhNJPQvrP4a-1" vertex="1" connectable="0">
+        <mxCell id="tTdPIshzSZhNJPQvrP4a-27" value="" style="group;fontColor=light-dark(#FFFFFF,#FFFFFF);" parent="tTdPIshzSZhNJPQvrP4a-1" vertex="1" connectable="0">
           <mxGeometry x="31" y="179.5" width="130" height="80" as="geometry" />
         </mxCell>
         <mxCell id="tTdPIshzSZhNJPQvrP4a-28" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeWidth=3;strokeColor=#00FFFF;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="tTdPIshzSZhNJPQvrP4a-27" vertex="1">
           <mxGeometry width="130" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="tTdPIshzSZhNJPQvrP4a-29" value="" style="group" parent="tTdPIshzSZhNJPQvrP4a-27" vertex="1" connectable="0">
+        <mxCell id="tTdPIshzSZhNJPQvrP4a-29" value="" style="group;fontColor=light-dark(#FFFFFF,#FFFFFF);" parent="tTdPIshzSZhNJPQvrP4a-27" vertex="1" connectable="0">
           <mxGeometry x="19" y="10" width="91" height="32.5" as="geometry" />
         </mxCell>
         <mxCell id="tTdPIshzSZhNJPQvrP4a-30" value="&lt;b style=&quot;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(255, 255, 255), rgb(255, 255, 255));&quot;&gt;Delivers&lt;/font&gt;&lt;/b&gt;" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shadow=0;dashed=0;strokeWidth=2;shape=mxgraph.android.phone2;strokeColor=#00FFFF;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="tTdPIshzSZhNJPQvrP4a-29" vertex="1">
@@ -1164,7 +1164,7 @@
         <mxCell id="tTdPIshzSZhNJPQvrP4a-35" style="edgeStyle=orthogonalEdgeStyle;shape=connector;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeColor=#FF6A00;strokeWidth=2;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=#FFFF00;fontStyle=1;labelBackgroundColor=default;resizable=0;endArrow=classic;flowAnimation=1;" parent="tTdPIshzSZhNJPQvrP4a-1" source="tTdPIshzSZhNJPQvrP4a-38" target="tTdPIshzSZhNJPQvrP4a-3" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="LKk8hev0kCWulFpQ1kiI-1" value="&lt;font style=&quot;color: light-dark(rgb(255, 255, 0), rgb(255, 255, 0)); font-size: 14px;&quot;&gt;&lt;b&gt;7&lt;/b&gt;&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;" parent="tTdPIshzSZhNJPQvrP4a-35" vertex="1" connectable="0">
+        <mxCell id="LKk8hev0kCWulFpQ1kiI-1" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;b&gt;7&lt;/b&gt;&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;fontColor=light-dark(#FFFF00,#FFFF00);" parent="tTdPIshzSZhNJPQvrP4a-35" vertex="1" connectable="0">
           <mxGeometry x="-0.1078" y="-12" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>

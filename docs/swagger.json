@@ -1089,8 +1089,8 @@
                 "role": {
                     "type": "string",
                     "enum": [
-                        "client",
-                        "deliver",
+                        "customer",
+                        "deliverer",
                         "partner",
                         "admin"
                     ]
@@ -1171,6 +1171,9 @@
                 },
                 "last_name": {
                     "description": "The last name of the user.",
+                    "type": "string"
+                },
+                "notif_token": {
                     "type": "string"
                 },
                 "phone": {

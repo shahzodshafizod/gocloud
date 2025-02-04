@@ -2,7 +2,7 @@
 
 ## Overview
 
-**GoCloud** is a scalable, microservices-based project built using **Go**. It follows **Clean Code Architecture** principles and supports **gRPC** and **message brokers** for service-to-service communication. The project includes **authentication & authorization**, **email and push notifications**, **SQL & NoSQL databases**, **caching**, **file storage**, and **distributed tracing**.
+**GoCloud** is a scalable, microservices-based project built with **Go**. It follows **Clean Code Architecture** principles and supports **gRPC** and **message brokers** for service-to-service communication. The project includes **authentication & authorization**, **email and push notifications**, **SQL & NoSQL databases**, **caching**, **file storage**, and **distributed tracing**.
 
 The project is about Delivery System which consists of four microservices:
 - **API Gateway**
@@ -306,7 +306,7 @@ Communication methods are color-coded in design diagrams:
 
 ---
 
-## Installation & Setup
+## Installation
 
 ### Prerequisites
 - **Go** (≥1.19)
@@ -334,23 +334,95 @@ make tests-clear  # Clears generated test-cover.out files
 make swagger-generate
 ```
 
-Swagger documentation is available at:
+### Installing Migration CLI Tool (golang-migrate)
+```sh
+curl -L https://github.com/golang-migrate/migrate/releases/download/$version/migrate.$os-$arch.tar.gz | tar xvz
+# example: curl -L https://github.com/golang-migrate/migrate/releases/download/v4.18.2/migrate.linux-amd64.tar.gz | tar -xvz
+
+mv migrate ~/go/bin/
+# you can find new releases at: https://github.com/golang-migrate/migrate/releases
 ```
-http://localhost:4401/docs/index.html
+
+To create a migration use the following command:
+```sh
+make migration-create name=<MIGRATION_NAME> dir=<MIGRATION_DIRECTORY>
+# example: make migration-create name=partners_init dir=migrations/partners
 ```
+---
+
+## On-Premises Implementations
+
+In this branch, I have implemented a variety of on-premises solutions, utilizing the following technologies:  
+
+- **Authentication**: [**Keycloak**](https://www.keycloak.org) for identity and access management.
+- **Caching**: [**Redis**](https://redis.io) for in-memory caching to enhance performance.
+- **Email Services**: [**MailHog**](https://github.com/mailhog/MailHog) for local email testing. It can be easily changed to any production solution.  
+- **Push Notifications**: [**OneSignal**](https://onesignal.com) for cross-platform push notifications (requires API setup).
+- **NoSQL Databases**: [**MongoDB**](https://www.mongodb.com) for handling unstructured/semi-structured data.
+- **SQL Databases**: [**PostgreSQL**](https://www.postgresql.org) as the relational database.
+- **Message Brokers**: [**RabbitMQ**](https://www.rabbitmq.com) and [**NATS JetStream**](https://nats.io) for messaging and event-driven communication.
+- **Storage**: [**MinIO**](https://min.io), an S3-compatible object storage solution.
+- **Distributed Tracing**: [**OpenTelemetry**](https://opentelemetry.io) for observability, with [**Jaeger**](https://www.jaegertracing.io) for trace visualization.
 
 ---
 
-## Next Steps
+## Setting Up and Running the Application
 
-- **Implement Authentication** (e.g., Keycloak, Amazon Cognito, Firebase Authentication, Azure AD)
-- **Implement Caching** (e.g., Redis, Memcached, Amazon ElastiCache, Memorystore, Azure Cache for Redis)
-- **Implement Email Services** (e.g., Gmail, Amazon SES, SendGrid/Mailgun/Mailjet on Google Cloud, Azure Communication Services)
-- **Implement Push Notifications** (e.g., OneSignal, AWS SNS, FCM, Azure Notification Hubs)
-- **Implement NoSQL Databases** (e.g., MongoDB, Amazon DynamoDB, Cloud Firestore, Cloud Datastore, Azure Cosmos DB)
-- **Implement SQL Databases** (e.g., Amazon RDS, Amazon Aurora, Cloud SQL, Azure SQL Database, Azure Database for PostgreSQL)
-- **Implement Message Brokers** (e.g., RabbitMQ, JetStream, Amazon SQS, Amazon MSK (Managed Streaming for Apache Kafka), Amazon MQ, Cloud Pub/Sub, Azure Service Bus)
-- **Implement Storage** (e.g., MinIO, Amazon S3, Google Cloud Storage, Azure Blob Storage)
-- **Implement Tracing** (e.g., OpenTelemetry, AWS X-Ray, Cloud Trace, Azure Monitor Application Insights)
+### 1. Configure Push Notifications
+1. Create a Web App on [OneSignal](https://onesignal.com) and copy the App ID.
+2. Set `ONESIGNAL_APP_ID` in `configs/config.env`.
+3. In [OneSignal Dashboard](https://dashboard.onesignal.com/), go to "Settings > Keys & IDs", generate an API Key, and set `ONESIGNAL_REST_API_KEY` in `configs/config.env`.
+4. Update `appId` in `pkg/onprem/onesignal/index.html`.
+
+### 2. Create a Docker Network
+```sh
+docker network create gocloud
+```
+This ensures communication between services running in different Docker Compose files.
+
+### 3. Start Dependencies
+```sh
+docker compose -f pkg/onprem/docker-compose.yml up -d
+```
+
+### 4. Set Up PostgreSQL Databases
+```sh
+docker exec -it postgres psql -d postgres -U odmin
+# CREATE DATABASE notificationsdb;
+# CREATE DATABASE ordersdb;
+# CREATE DATABASE partnersdb;
+```
+
+### 5. Configure MinIO
+1. Access the MinIO console at `http://localhost:9090` (credentials in `pkg/onprem/docker-compose.yml`).  
+2. Go to "Access Keys", create a new access key, and update:
+   - `MINIO_ACCESS_KEY` in `configs/config.env`
+   - `MINIO_SECRET_KEY` in `configs/config.env`
+
+### 6. Build and Start Application Services
+```sh
+docker compose up -d --build
+# docker compose up -d # without building
+```
+Build and start a separate service:
+```sh
+docker build -t delivery/api -f cmd/api/Dockerfile .
+docker compose up -d deliveryapi
+```
+
+### Access Application Components
+- **API Documentation (Swagger):** http://localhost:4401/docs/
+- **Push Notification Demo:** http://localhost:4444/
+  - Find "Subscription ID" at: `https://dashboard.onesignal.com/apps/{APP_ID}/subscriptions`
+- **Email Sandbox (MailHog):** http://localhost:8025
+- **Keycloak Admin Panel:** http://localhost:8080/admin/delivery/console/
+- **Tracing Console (Jaeger):** http://localhost:16686/
+- **MinIO Console Panel:** http://localhost:9090/
+
+---
+
+## AWS Implementations
+
+**Coming soon**...
 
 ---

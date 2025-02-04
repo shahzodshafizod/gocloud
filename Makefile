@@ -42,15 +42,11 @@ tests-clear:
 	rm internal/partners/test-cover.out
 	rm internal/products/test-cover.out
 
-migration-create:
-	# goose -dir "migrations/notifications" create notifications_init sql
-	# goose postgres "host=localhost user=postgres database=db_name password=postgres sslmode=disable" status
-
-	# name=partners_init dir=migrations/partners make create-migration
-	migrate create -ext sql -dir ${dir} -seq ${name}
-
-images-build:
+docker-build:
 	docker build -t delivery/api -f cmd/api/Dockerfile .
 	docker build -t delivery/notifications -f cmd/notifications/Dockerfile .
 	docker build -t delivery/orders -f cmd/orders/Dockerfile .
 	docker build -t delivery/partners -f cmd/partners/Dockerfile .
+
+migration-create:
+	migrate create -ext sql -dir ${dir} -seq ${name}

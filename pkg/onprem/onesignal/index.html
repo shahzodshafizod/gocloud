@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Signal Push Notifications</title>
+
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+        window.OneSignalDeferred = window.OneSignalDeferred || [];
+        OneSignalDeferred.push(function (OneSignal) {
+            OneSignal.init({
+                appId: "00000000-0000-0000-0000-000000000000",
+                allowLocalhostAsSecureOrigin: true,
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <pre>
+https://documentation.onesignal.com/docs/web-push-quickstart
+docker run --rm --name nginx -p 4444:80 -v "`pwd`/pkg/onprem/onesignal":/usr/share/nginx/html -d nginx
+Delete notifications from here:
+    opera://settings/content/all
+    chrome://settings/content/notifications
+    </pre>
+</body>
+
+</html>
