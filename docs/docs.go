@@ -550,6 +550,13 @@ const docTemplate = `{
                 "summary": "User SignUp",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "hash_hmac('sha256', first_name+last_name+email+password+role, apiSecretKey)",
+                        "name": "Signature",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "sign up info",
                         "name": "Request",
                         "in": "body",
@@ -1274,7 +1281,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:4401",
+	Host:             "delivery.local",
 	BasePath:         "/api/v1",
 	Schemes:          []string{"http"},
 	Title:            "Delivery API Gateway",

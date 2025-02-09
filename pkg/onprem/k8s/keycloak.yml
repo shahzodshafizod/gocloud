@@ -1,0 +1,151 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: keycloakpostgres-pvc
+  namespace: gocloud
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloakpostgres
+  namespace: gocloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: keycloakpostgres
+  template:
+    metadata:
+      labels:
+        component: keycloakpostgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: "Asia/Dushanbe"
+            - name: POSTGRES_DB
+              value: "keycloakdb"
+            - name: POSTGRES_USER
+              value: "keycloakuser"
+            - name: POSTGRES_PASSWORD
+              value: "keycloakpassword"
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: keycloakpostgres-data
+      volumes:
+        - name: keycloakpostgres-data
+          persistentVolumeClaim:
+            claimName: keycloakpostgres-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloakpostgres
+  namespace: gocloud
+spec:
+  ports:
+    - port: 5433
+      protocol: TCP
+      targetPort: 5432
+  selector:
+    component: keycloakpostgres
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  namespace: gocloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: keycloak
+  template:
+    metadata:
+      labels:
+        component: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:latest
+          imagePullPolicy: IfNotPresent
+          args: ["start-dev", "--import-realm"]
+          env:
+            - name: KEYCLOAK_ADMIN
+              value: "admin"
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              value: "parol"
+            - name: KC_HOSTNAME
+              value: "keycloak.delivery.local"
+            - name: KC_HOSTNAME_URL
+              value: "http://keycloak.delivery.local"
+            - name: KC_HOSTNAME_STRICT
+              value: "false"
+            - name: KC_PROXY
+              value: "edge"
+            - name: KC_DB
+              value: "postgres"
+            - name: KC_DB_URL
+              value: "jdbc:postgresql://keycloakpostgres:5433/keycloakdb?ssl=allow"
+            - name: KC_DB_USERNAME
+              value: "keycloakuser"
+            - name: KC_DB_PASSWORD
+              value: "keycloakpassword"
+          ports:
+            - name: api
+              containerPort: 8443
+            - name: http
+              containerPort: 8080
+          volumeMounts:
+            - name: keycloakimport
+              mountPath: /opt/keycloak/data/import
+      volumes:
+        - name: keycloakimport
+          configMap:
+            name: keycloakimport
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak
+  namespace: gocloud
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    component: keycloak
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: keycloak
+  namespace: gocloud
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: keycloak.delivery.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: keycloak
+                port:
+                  number: 8080
+
+# kubectl apply -f pkg/onprem/k8s/keycloak.yml

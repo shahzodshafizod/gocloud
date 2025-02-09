@@ -17,11 +17,12 @@ services:
     image: quay.io/keycloak/keycloak:latest
     container_name: keycloak
     restart: always
-    command: start --import-realm
+    command: start-dev --import-realm
     environment:
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=parol
-      - KC_HOSTNAME_URL=http://localhost:8080
+      - KC_HOSTNAME=delivery.local
+      - KC_HOSTNAME_URL=http://delivery.local:8080
       - KC_PROXY=edge
       - KC_DB=postgres
       - KC_DB_URL=jdbc:postgresql://keycloakpostgres:5432/keycloakdb?ssl=allow
@@ -38,7 +39,7 @@ services:
       - gocloud
 
   redis:
-    image: redis
+    image: redis:latest
     restart: on-failure
     container_name: redis
     command: '--requirepass ed1821bc8bb645a298717c0af3382262'
@@ -48,7 +49,7 @@ services:
       - gocloud
 
   mailhog:
-    image: mailhog/mailhog
+    image: mailhog/mailhog:latest
     container_name: mailhog
     ports:
       - 1025:1025 # smtp server
@@ -57,7 +58,7 @@ services:
       - gocloud
 
   mongo:
-    image: mongo
+    image: mongo:latest
     container_name: mongo
     restart: always
     environment:
@@ -71,7 +72,7 @@ services:
       - gocloud
 
   onesignal:
-    image: nginx
+    image: nginx:latest
     container_name: onesignal
     restart: always
     volumes:
@@ -82,7 +83,7 @@ services:
       - gocloud
 
   postgres:
-    image: postgres
+    image: postgres:latest
     restart: on-failure
     container_name: postgres
     environment:
@@ -98,7 +99,7 @@ services:
       - gocloud
 
   rabbitmq:
-    image: rabbitmq
+    image: rabbitmq:latest
     container_name: rabbitmq
     environment:
       - RABBITMQ_DEFAULT_USER=user
@@ -109,7 +110,7 @@ services:
     networks:
       - gocloud
   jetstream:
-    image: nats
+    image: nats:latest
     container_name: jetstream
     command: -js
     ports:
@@ -120,7 +121,7 @@ services:
       - gocloud
 
   minio:
-    image: quay.io/minio/minio
+    image: quay.io/minio/minio:latest
     container_name: minio
     command: server /data --console-address ":9090"
     environment:
@@ -135,7 +136,7 @@ services:
       - gocloud
 
   jaeger:
-    image: jaegertracing/all-in-one
+    image: jaegertracing/all-in-one:latest
     container_name: jaeger
     ports:
       - 16686:16686 # for console panel

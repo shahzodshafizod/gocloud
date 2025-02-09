@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deliveryorders
+  namespace: gocloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: deliveryorders
+  template:
+    metadata:
+      labels:
+        component: deliveryorders
+    spec:
+      containers:
+        - name: deliveryorders
+          image: delivery/orders:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SERVICE_NAME
+              value: "orders"
+            - name: SERVICE_ADDRESS
+              value: ":4403"
+            - name: MIGRATION_DIR
+              value: "file:///api/migrations/orders/"
+            - name: PAYMENT_CALLBACK_URL
+              value: "http://localhost:4401/api/v1/orders/pay"
+            - name: READY_CALLBACK_URL
+              value: "http://localhost:4401/api/v1/orders/pickup"
+            - name: NOTIFICATION_AGENT_ID
+              value: "87b77778-6a51-4ef7-a9cd-e2eec44aefaf"
+            - name: POSTGRES_DSN
+              value: "postgres://odmin:d511v5rypar01@postgres:5432/ordersdb?sslmode=disable"
+          envFrom:
+            - configMapRef:
+                name: configs
+          ports:
+            - containerPort: 4403
+          volumeMounts:
+            - name: migrationorders
+              mountPath: /api/migrations/orders/
+      volumes:
+        - name: migrationorders
+          configMap:
+            name: migrationorders
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deliveryorders
+  namespace: gocloud
+spec:
+  ports:
+    - port: 4403
+      targetPort: 4403
+      protocol: TCP
+  selector:
+    component: deliveryorders
+
+# kubectl apply -f k8s/deliverynotifications.yml

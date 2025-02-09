@@ -26,7 +26,7 @@ import (
 //	@contact.url				http://github.com/shahzodshafizod
 //	@contact.email				shahzodshafizod@gmail.com
 //	@license.name				© Shahzod Shafizod
-//	@host						localhost:4401
+//	@host						delivery.local
 //	@schemes					http
 //	@BasePath					/api/v1
 //	@securityDefinitions.apikey	Authorization Token

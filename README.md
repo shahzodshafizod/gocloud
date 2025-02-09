@@ -74,7 +74,7 @@ The **API Gateway** is the central entry point for all **customer-facing HTTP re
 
 6. **Swagger API Documentation**  
    - Generates API docs for HTTP routes using [http-swagger](https://github.com/swaggo/http-swagger).  
-   - Accessible at `http://localhost:4401/docs/index.html`.  
+   - Accessible at `http://delivery.local/docs/index.html`.  
    - Allows developers to **test endpoints interactively**.  
 
 7. **Distributed Tracing**  
@@ -309,8 +309,7 @@ Communication methods are color-coded in design diagrams:
 ## Installation
 
 ### Prerequisites
-- **Go** (≥1.19)
-- **Docker & Docker Compose**
+- **Go**
 
 ### Clone the Repository
 ```sh
@@ -366,7 +365,11 @@ In this branch, I have implemented a variety of on-premises solutions, utilizing
 
 ---
 
-## Setting Up and Running the Application
+## Setting Up and Running the Application (on Docker)
+
+### Prerequisites
+- **Docker & Docker Compose**
+- **Docker Images**: Ensure all required Docker images are available locally or accessible from a container registry.
 
 ### 1. Configure Push Notifications
 1. Create a Web App on [OneSignal](https://onesignal.com) and copy the App ID.
@@ -393,36 +396,128 @@ docker exec -it postgres psql -d postgres -U odmin
 # CREATE DATABASE partnersdb;
 ```
 
-### 5. Configure MinIO
-1. Access the MinIO console at `http://localhost:9090` (credentials in `pkg/onprem/docker-compose.yml`).  
+### 5. Mapping of the IP address 127.0.0.1 (localhost) to the hostname delivery.local
+```sh
+echo "127.0.0.1 delivery.local" | sudo tee -a /etc/hosts
+```
+
+### 6. Configure MinIO
+1. Access the MinIO console at [`http://delivery.local:9090`](http://delivery.local:9090) (credentials in `pkg/onprem/docker-compose.yml`).  
 2. Go to "Access Keys", create a new access key, and update:
    - `MINIO_ACCESS_KEY` in `configs/config.env`
    - `MINIO_SECRET_KEY` in `configs/config.env`
 
-### 6. Build and Start Application Services
+### 7. Build Docker Images
 ```sh
-docker compose up -d --build
-# docker compose up -d # without building
-```
-Build and start a separate service:
-```sh
+make docker-build
+
+# or build a separate image
 docker build -t delivery/api -f cmd/api/Dockerfile .
+```
+
+### 8. Build and Start Application Services
+```sh
+docker compose up -d
+
+# or start a separate service:
 docker compose up -d deliveryapi
 ```
 
 ### Access Application Components
-- **API Documentation (Swagger):** http://localhost:4401/docs/
-- **Push Notification Demo:** http://localhost:4444/
+- **API Documentation (Swagger):** http://delivery.local/docs/
+- **Push Notification Demo:** http://delivery.local:4444/
   - Find "Subscription ID" at: `https://dashboard.onesignal.com/apps/{APP_ID}/subscriptions`
-- **Email Sandbox (MailHog):** http://localhost:8025
-- **Keycloak Admin Panel:** http://localhost:8080/admin/delivery/console/
-- **Tracing Console (Jaeger):** http://localhost:16686/
-- **MinIO Console Panel:** http://localhost:9090/
+- **Email Sandbox (MailHog):** http://delivery.local:8025/
+- **Keycloak Admin Panel:** http://delivery.local:8080/admin/delivery/console/
+- **Tracing Console (Jaeger):** http://delivery.local:16686/
+- **MinIO Console Panel:** http://delivery.local:9090/
 
 ---
 
-## AWS Implementations
+## Running on Kubernetes (Minikube)
+This guide provides step-by-step instructions to deploy the application on a local Kubernetes cluster using Minikube.
 
-**Coming soon**...
+### Prerequisites
 
----
+- **Minikube**: Ensure Minikube is installed and running.
+- **kubectl**: Ensure `kubectl` is installed and configured to interact with your Minikube cluster.
+- **Docker Images**: Ensure all required Docker images are available locally or accessible from a container registry.
+
+### 1. Start Minikube and Enable Required Add-ons
+```sh
+minikube start
+minikube addons enable ingress
+minikube addons enable ingress-dns
+```
+
+### 2. Load Docker Images into Minikube Registry (or they will be downloaded when you run deployment manifests)
+```sh
+minikube image load quay.io/keycloak/keycloak:latest
+minikube image load quay.io/minio/minio:latest
+minikube image load postgres:latest
+minikube image load rabbitmq:latest
+minikube image load nats:latest
+minikube image load jaegertracing/all-in-one:latest
+minikube image load redis:latest
+minikube image load mongo:latest
+minikube image load nginx:latest
+minikube image load mailhog/mailhog:latest
+
+minikube image load delivery/api:latest
+minikube image load delivery/notifications:latest
+minikube image load delivery/partners:latest
+minikube image load delivery/orders:latest
+```
+
+### 3. Create Namespace and ConfigMaps
+```sh
+kubectl create namespace gocloud
+
+kubectl -n gocloud create configmap keycloakimport --from-file=pkg/onprem/keycloak/import/import.json
+kubectl -n gocloud create configmap onesignal --from-file=pkg/onprem/onesignal/
+
+kubectl -n gocloud create configmap configs --from-env-file=configs/config.env
+kubectl -n gocloud create configmap migrationnotifications --from-file=migrations/notifications/
+kubectl -n gocloud create configmap migrationorders --from-file=migrations/orders/
+kubectl -n gocloud create configmap migrationpartners --from-file=migrations/partners/
+```
+
+### 4. Apply Kubernetes Manifests
+```sh
+kubectl apply -f pkg/onprem/k8s/
+kubectl apply -f k8s/
+```
+
+### 5. Set Up PostgreSQL Databases
+```sh
+kubectl -n gocloud exec -it postgres -- psql -d postgres -U odmin
+# CREATE DATABASE notificationsdb;
+# CREATE DATABASE ordersdb;
+# CREATE DATABASE partnersdb;
+```
+
+### 6. Configure Keycloak Frontend URL
+
+Set the Frontend URL in Keycloak to ensure correct confirmation callback URLs in emails:
+
+1. Go to **Realm Settings > General**.
+2. Set **Frontend URL** to: `http://keycloak.delivery.local/`
+
+### 7. Map Minikube IP to Ingress Hostnames
+```sh
+echo "$(minikube ip) delivery.local" | sudo tee -a /etc/hosts
+echo "$(minikube ip) jaeger.delivery.local" | sudo tee -a /etc/hosts
+echo "$(minikube ip) keycloak.delivery.local" | sudo tee -a /etc/hosts
+echo "$(minikube ip) mailhog.delivery.local" | sudo tee -a /etc/hosts
+echo "$(minikube ip) minio.delivery.local" | sudo tee -a /etc/hosts
+echo "$(minikube ip) push.delivery.local" | sudo tee -a /etc/hosts
+```
+
+### Access Application Components
+- **API Documentation (Swagger):** http://delivery.local/docs/
+- **Push Notification Demo:** http://push.delivery.local/
+  - Find "Subscription ID" at: `https://dashboard.onesignal.com/apps/{APP_ID}/subscriptions`
+- **Email Sandbox (MailHog):** http://mailhog.delivery.local/
+- **Keycloak Admin Panel:** http://keycloak.delivery.local/admin/delivery/console/
+- **Tracing Console (Jaeger):** http://jaeger.delivery.local/
+- **MinIO Console Panel:** http://minio.delivery.local/

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: gocloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: redis
+  template:
+    metadata:
+      labels:
+        component: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:latest
+          command: ["redis-server", "--requirepass", "ed1821bc8bb645a298717c0af3382262"]
+          # args: [--requirepass ed1821bc8bb645a298717c0af3382262]
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 6379
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: gocloud
+spec:
+  selector:
+    component: redis
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+
+# kubectl apply -f pkg/onprem/k8s/redis.yml
+# kubectl exec -it redis -- redis-cli
+# AUTH redisPassword

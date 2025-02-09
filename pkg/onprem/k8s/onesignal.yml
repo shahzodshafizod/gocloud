@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: onesignal
+  namespace: gocloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: onesignal
+  template:
+    metadata:
+      labels:
+        component: onesignal
+    spec:
+      containers:
+        - name: onesignal
+          image: nginx:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: sitehtml
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: sitehtml
+          configMap:
+            name: onesignal
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: onesignal
+  namespace: gocloud
+spec:
+  ports:
+    - port: 4444
+      targetPort: 80
+  selector:
+    component: onesignal
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: onesignal
+  namespace: gocloud
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: push.delivery.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: onesignal
+                port:
+                  number: 4444
+
+# kubectl apply -f pkg/onprem/k8s/onesignal.yml

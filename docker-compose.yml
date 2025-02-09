@@ -7,7 +7,7 @@ services:
     image: delivery/api
     container_name: deliveryapi
     restart: always
-    env_file: configs/onprem.env
+    env_file: configs/config.env
     environment:
       - SERVICE_NAME=gateway
       - SERVICE_ADDRESS=:4401
@@ -15,10 +15,7 @@ services:
       - ORDERS_SERVICE_ADDRESS=deliveryorders:4403
       - PARTNERS_SERVICE_ADDRESS=deliverypartners:4404
     ports:
-      - 4401:4401
-    depends_on:
-      - deliveryorders
-      - deliverypartners
+      - 80:4401
     networks:
       - gocloud
 
@@ -29,7 +26,7 @@ services:
     image: delivery/notifications
     container_name: deliverynotifications
     restart: always
-    env_file: configs/onprem.env
+    env_file: configs/config.env
     environment:
       - SERVICE_NAME=notifications
       - SERVICE_ADDRESS=:4402
@@ -49,13 +46,13 @@ services:
     image: delivery/orders
     container_name: deliveryorders
     restart: always
-    env_file: configs/onprem.env
+    env_file: configs/config.env
     environment:
       - SERVICE_NAME=orders
       - SERVICE_ADDRESS=:4403
       - MIGRATION_DIR=file:///api/migrations/orders/
-      - PAYMENT_CALLBACK_URL=http://localhost:4401/api/v1/orders/pay
-      - READY_CALLBACK_URL=http://localhost:4401/api/v1/orders/pickup
+      - PAYMENT_CALLBACK_URL=http://delivery.local/api/v1/orders/pay
+      - READY_CALLBACK_URL=http://delivery.local/api/v1/orders/pickup
       - NOTIFICATION_AGENT_ID=87b77778-6a51-4ef7-a9cd-e2eec44aefaf
       - POSTGRES_DSN=postgres://odmin:d511v5rypar01@postgres:5432/ordersdb?sslmode=disable
     volumes:
@@ -72,7 +69,7 @@ services:
     image: delivery/partners
     container_name: deliverypartners
     restart: always
-    env_file: configs/onprem.env
+    env_file: configs/config.env
     environment:
       - SERVICE_NAME=partners
       - SERVICE_ADDRESS=:4404

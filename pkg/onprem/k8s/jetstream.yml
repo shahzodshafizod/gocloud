@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jetstream
+  namespace: gocloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: jetstream
+  template:
+    metadata:
+      labels:
+        component: jetstream
+    spec:
+      containers:
+        - name: jetstream
+          image: nats:latest
+          imagePullPolicy: IfNotPresent
+          args: [-js]
+          ports:
+            - containerPort: 4222
+            - containerPort: 8222
+            - containerPort: 6222
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jetstream
+  namespace: gocloud
+spec:
+  ports:
+    - name: client
+      port: 4222
+      targetPort: 4222
+    - name: reporting
+      port: 8222
+      targetPort: 8222
+    - name: routing
+      port: 6222
+      targetPort: 6222
+  selector:
+    component: jetstream
+
+# kubectl apply -f pkg/onprem/k8s/jetstream.yml
