@@ -28,6 +28,6 @@ func main() {
 		fx.Provide(notifications.NewService),
 		fx.Invoke(notifications.NewHandler),
 
-		// fx.NopLogger,
+		fx.NopLogger,
 	).Run()
 }

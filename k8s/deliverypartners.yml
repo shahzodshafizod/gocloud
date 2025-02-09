@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deliverypartners
+  namespace: gocloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: deliverypartners
+  template:
+    metadata:
+      labels:
+        component: deliverypartners
+    spec:
+      containers:
+        - name: deliverypartners
+          image: delivery/partners:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SERVICE_NAME
+              value: "partners"
+            - name: SERVICE_ADDRESS
+              value: ":4404"
+            - name: MIGRATION_DIR
+              value: "file:///api/migrations/partners/"
+            - name: POSTGRES_DSN
+              value: "postgres://odmin:d511v5rypar01@postgres:5432/partnersdb?sslmode=disable"
+          envFrom:
+            - configMapRef:
+                name: configs
+          ports:
+            - containerPort: 4404
+          volumeMounts:
+            - name: migrationpartners
+              mountPath: /api/migrations/partners/
+      volumes:
+        - name: migrationpartners
+          configMap:
+            name: migrationpartners
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deliverypartners
+  namespace: gocloud
+spec:
+  ports:
+    - port: 4404
+      targetPort: 4404
+      protocol: TCP
+  selector:
+    component: deliverypartners
+
+# kubectl apply -f k8s/deliverypartners.yml

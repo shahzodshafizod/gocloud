@@ -27,6 +27,6 @@ func main() {
 		fx.Provide(orders.NewService),
 		fx.Invoke(orders.NewHandler),
 
-		// fx.NopLogger,
+		fx.NopLogger,
 	).Run()
 }

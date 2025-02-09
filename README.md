@@ -2,7 +2,7 @@
 
 ## Overview
 
-**GoCloud** is a scalable, microservices-based project built using **Go**. It follows **Clean Code Architecture** principles and supports **gRPC** and **message brokers** for service-to-service communication. The project includes **authentication & authorization**, **email and push notifications**, **SQL & NoSQL databases**, **caching**, **file storage**, and **distributed tracing**.
+**GoCloud** is a scalable, microservices-based project built with **Go**. It follows **Clean Code Architecture** principles and supports **gRPC** and **message brokers** for service-to-service communication. The project includes **authentication & authorization**, **email and push notifications**, **SQL & NoSQL databases**, **caching**, **file storage**, and **distributed tracing**.
 
 The project is about Delivery System which consists of four microservices:
 - **API Gateway**
@@ -40,7 +40,9 @@ gocloud/
 
 ## Services
 
-### 1. API Gateway (`cmd/api/`)
+<details>
+
+<summary><b style="font-size:20px">1. API Gateway (`cmd/api/`)</b></summary>
 
 The **API Gateway** is the central entry point for all **customer-facing HTTP requests** in the system. It handles **authentication, authorization, product retrieval, order management, and callback processing** from payment and partner systems. It supports **high-performance request routing, validation, caching, and distributed tracing** while acting as a bridge between clients and internal microservices. Provides **Swagger documentation** for easy API interaction.  
 
@@ -74,7 +76,7 @@ The **API Gateway** is the central entry point for all **customer-facing HTTP re
 
 6. **Swagger API Documentation**  
    - Generates API docs for HTTP routes using [http-swagger](https://github.com/swaggo/http-swagger).  
-   - Accessible at `http://localhost:4401/docs/index.html`.  
+   - Accessible at `http://delivery.local/docs/index.html`.  
    - Allows developers to **test endpoints interactively**.  
 
 7. **Distributed Tracing**  
@@ -93,7 +95,10 @@ The **API Gateway** is the central entry point for all **customer-facing HTTP re
     - Uses **gRPC** for high-performance service-to-service communication.  
     - Publishes **messages via message broker** for event-driven workflows.  
 
-### 2. Push Notifications Service (`cmd/notifications/`)
+</details>
+<details>
+
+<summary><b style="font-size:20px">2. Push Notifications Service (`cmd/notifications/`)</b></summary>
 
 The **Push Notifications Service** is responsible for handling **real-time push notifications** across different microservices. It processes **incoming events** via a **message broker** and delivers push messages through **third-party notification providers**. The service ensures **reliable delivery, priority-based handling, and historical tracking** of notifications.  
 
@@ -121,7 +126,10 @@ It integrates **SQL** and **NoSQL** databases for configuration and message stor
    - Links with **previous service traces** to provide full observability.  
    - Ensures that each notification event is trackable in the request lifecycle.  
 
-### 3. Orders and Payments Service (`cmd/orders/`)
+</details>
+<details>
+
+<summary><b style="font-size:20px">3. Orders and Payments Service (`cmd/orders/`)</b></summary>
 
 The **Orders and Payments Service** is responsible for managing customer orders and processing payments. It communicates with other microservices via **gRPC** and **RabbitMQ (message broker)** and stores data in both **SQL (PostgreSQL)** and **NoSQL (MongoDB or another NoSQL database)** for optimized performance.  
 
@@ -152,7 +160,10 @@ This service ensures seamless order management, records transaction history, and
    - Sends messages to **message broker** when actions are required in other microservices.  
    - Notifies **inventory service**, **notifications service**, and other relevant systems.  
 
-### 4. Partners and Products Service (`cmd/partners/`)
+</details>
+<details>
+
+<summary><b style="font-size:20px">4. Partners and Products Service (`cmd/partners/`)</b></summary>
 
 The **Partners and Products Service** is responsible for managing **partners, products, and their availability**. It plays a crucial role in ensuring that partner businesses have up-to-date product listings and availability statuses. This service also notifies partners when a customer **pays for an order**, ensuring that they prepare the necessary products for fulfillment.  
 
@@ -181,6 +192,8 @@ The service **accepts requests via gRPC and a message broker** and integrates wi
 5. **Notifies Partners When Orders are Paid**  
    - Sends requests to **partners' external APIs** when an order is paid.  
    - Ensures partners are aware of **which products to prepare and in what quantities** for customers.  
+
+</details>
 
 ---
 
@@ -306,11 +319,10 @@ Communication methods are color-coded in design diagrams:
 
 ---
 
-## Installation & Setup
+## Installation
 
 ### Prerequisites
-- **Go** (≥1.19)
-- **Docker & Docker Compose**
+- **Go**
 
 ### Clone the Repository
 ```sh
@@ -327,16 +339,6 @@ make tests-run
 ```sh
 make tests-cover
 make tests-clear  # Clears generated test-cover.out files
-```
-
-### Generate Swagger API Documentation
-```sh
-make swagger-generate
-```
-
-Swagger documentation is available at:
-```
-http://localhost:4401/docs/index.html
 ```
 
 ---

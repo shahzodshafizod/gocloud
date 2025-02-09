@@ -192,8 +192,8 @@ definitions:
         type: string
       role:
         enum:
-        - client
-        - deliver
+        - customer
+        - deliverer
         - partner
         - admin
         type: string
@@ -259,6 +259,8 @@ definitions:
       last_name:
         description: The last name of the user.
         type: string
+      notif_token:
+        type: string
       phone:
         type: string
       photo_url:
@@ -309,7 +311,7 @@ definitions:
         type: string
       payload: {}
     type: object
-host: localhost:4401
+host: delivery.local
 info:
   contact:
     email: shahzodshafizod@gmail.com
@@ -638,6 +640,12 @@ paths:
       - application/json
       description: create user account
       parameters:
+      - description: hash_hmac('sha256', first_name+last_name+email+password+role,
+          apiSecretKey)
+        in: header
+        name: Signature
+        required: true
+        type: string
       - description: sign up info
         in: body
         name: Request

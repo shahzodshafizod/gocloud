@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deliverynotifications
+  namespace: gocloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: deliverynotifications
+  template:
+    metadata:
+      labels:
+        component: deliverynotifications
+    spec:
+      containers:
+        - name: deliverynotifications
+          image: delivery/notifications:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SERVICE_NAME
+              value: "notifications"
+            - name: SERVICE_ADDRESS
+              value: ":4402"
+            - name: MIGRATION_DIR
+              value: "file:///api/migrations/notifications/"
+            - name: POSTGRES_DSN
+              value: "postgres://odmin:d511v5rypar01@postgres:5432/notificationsdb?sslmode=disable"
+          envFrom:
+            - configMapRef:
+                name: configs
+          ports:
+            - containerPort: 4402
+          volumeMounts:
+            - name: migrationnotifications
+              mountPath: /api/migrations/notifications/
+      volumes:
+        - name: migrationnotifications
+          configMap:
+            name: migrationnotifications
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deliverynotifications
+  namespace: gocloud
+spec:
+  ports:
+    - port: 4402
+      targetPort: 4402
+      protocol: TCP
+  selector:
+    component: deliverynotifications
+
+# kubectl apply -f k8s/deliverynotifications.yml

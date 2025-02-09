@@ -300,6 +300,8 @@ func (s *service) getPartnerProducts(ctx context.Context) (*products.GetAllRespo
 }
 
 func (s *service) checkOrder(ctx context.Context, user *user, req *checkRequest) error {
+	// TODO: Ensure no duplicate OrderID exists in the Orders Service before processing the request.
+
 	cacheKey := "ORDER::" + user.ID + req.OrderID
 	var details = &orders.Order{}
 	err := s.cache.GetStruct(ctx, cacheKey, details)

@@ -7,6 +7,7 @@ import (
 	"github.com/shahzodshafizod/gocloud/internal/gateway"
 	"github.com/shahzodshafizod/gocloud/internal/orders"
 	"github.com/shahzodshafizod/gocloud/internal/partners"
+	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"go.uber.org/fx"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -21,7 +22,7 @@ import (
 //	@contact.url				http://github.com/shahzodshafizod
 //	@contact.email				shahzodshafizod@gmail.com
 //	@license.name				© Shahzod Shafizod
-//	@host						localhost:4401
+//	@host						delivery.local
 //	@schemes					http
 //	@BasePath					/api/v1
 //	@securityDefinitions.apikey	Authorization Token
@@ -36,6 +37,7 @@ func main() {
 			conn, err := grpc.NewClient(
 				os.Getenv("PARTNERS_SERVICE_ADDRESS"),
 				grpc.WithTransportCredentials(insecure.NewCredentials()),
+				grpc.WithStatsHandler(otelgrpc.NewClientHandler()),
 			)
 			if err != nil {
 				return nil, errors.Wrap(err, "grpc.Dial")
@@ -46,6 +48,7 @@ func main() {
 			conn, err := grpc.NewClient(
 				os.Getenv("ORDERS_SERVICE_ADDRESS"),
 				grpc.WithTransportCredentials(insecure.NewCredentials()),
+				grpc.WithStatsHandler(otelgrpc.NewClientHandler()),
 			)
 			if err != nil {
 				return nil, errors.Wrap(err, "grpc.Dial")
@@ -66,6 +69,6 @@ func main() {
 		fx.Provide(gateway.NewService),
 		fx.Invoke(gateway.NewHandler),
 
-		// fx.NopLogger,
+		fx.NopLogger,
 	).Run()
 }

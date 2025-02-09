@@ -8,6 +8,7 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/shahzodshafizod/gocloud/pkg"
+	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"go.uber.org/fx"
 	"google.golang.org/grpc"
 )
@@ -21,7 +22,7 @@ type handler struct {
 
 func NewHandler(lifecycle fx.Lifecycle, service Service, queue pkg.Queue, postgres pkg.Postgres, tracer pkg.Tracer) error {
 	handler := &handler{
-		server:  grpc.NewServer(),
+		server:  grpc.NewServer(grpc.StatsHandler(otelgrpc.NewServerHandler())),
 		service: service,
 		queue:   queue,
 		tracer:  tracer,

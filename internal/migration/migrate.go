@@ -28,3 +28,18 @@ func Migrate(dir string) error {
 	}
 	return nil
 }
+
+/*
+Installing Migration CLI Tool (golang-migrate)
+curl -L https://github.com/golang-migrate/migrate/releases/download/$version/migrate.$os-$arch.tar.gz | tar xvz
+# example: curl -L https://github.com/golang-migrate/migrate/releases/download/v4.18.2/migrate.linux-amd64.tar.gz | tar -xvz
+
+mv migrate ~/go/bin/
+# you can find new releases at: https://github.com/golang-migrate/migrate/releases
+*/
+
+/*
+To create a migration use the following command:
+make migration-create name=<MIGRATION_NAME> dir=<MIGRATION_DIRECTORY>
+# example: make migration-create name=partners_init dir=migrations/partners
+*/

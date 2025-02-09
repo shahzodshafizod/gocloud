@@ -30,6 +30,6 @@ func main() {
 		fx.Provide(partners.NewService),
 		fx.Invoke(partners.NewHandler),
 
-		// fx.NopLogger,
+		fx.NopLogger,
 	).Run()
 }

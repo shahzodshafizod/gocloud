@@ -8,7 +8,7 @@ type signUp struct {
 	Password   string `json:"password" validate:"required,min=6"`         // The hashed password of the user. Note: It's important to store passwords securely by hashing them.
 	Phone      string `json:"phone" validate:"omitempty,e164"`            // optional: E.164 formatted phone number: [+] [country code] [subscriber number including area code] and can have a maximum of fifteen digits.
 	BirthDate  string `json:"birth_date" validate:"omitempty,dateonly"`   // optional: YYYY-MM-DD
-	Role       string `json:"role" validate:"required,oneof=client deliver partner admin"`
+	Role       string `json:"role" validate:"required,oneof=customer deliverer partner admin"`
 	NotifToken string `json:"notif_token" validate:"omitempty"` // Notification Token ID
 }
 
@@ -21,7 +21,7 @@ type user struct {
 	PhotoURL    string   `json:"photo_url"`
 	BirthDate   string   `json:"birth_date"` // YYYY-MM-DD
 	Roles       []string `json:"roles"`
-	NotifToken  string   `json:"-"`
+	NotifToken  string   `json:"notif_token"`
 	AccessToken string   `json:"-"`
 }
 

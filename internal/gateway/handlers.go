@@ -100,18 +100,19 @@ func (h *handler) registerRoutes(tracer pkg.Tracer) pkg.Router {
 //	@Description	create user account
 //	@Accept			json
 //	@Produce		json
-//	@Param			Request	body		signUp	true	"sign up info"
-//	@Success		200		{object}	response.response{payload=signUpResponse}
-//	@Failure		400		"Bad Request"
-//	@Failure		401		"Unauthorized"
-//	@Failure		404		"Not Found"
-//	@Failure		409		"Already Exists"
-//	@Failure		410		"Wrong Verification"
-//	@Failure		411		"Wrong Password"
-//	@Failure		412		"Invalid Token"
-//	@Failure		415		"Unsupported Avatar Format"
-//	@Failure		500		"Internal Server Error"
-//	@Failure		504		"External Service Error"
+//	@Param			Signature	header		string	true	"hash_hmac('sha256', first_name+last_name+email+password+role, apiSecretKey)"
+//	@Param			Request		body		signUp	true	"sign up info"
+//	@Success		200			{object}	response.response{payload=signUpResponse}
+//	@Failure		400			"Bad Request"
+//	@Failure		401			"Unauthorized"
+//	@Failure		404			"Not Found"
+//	@Failure		409			"Already Exists"
+//	@Failure		410			"Wrong Verification"
+//	@Failure		411			"Wrong Password"
+//	@Failure		412			"Invalid Token"
+//	@Failure		415			"Unsupported Avatar Format"
+//	@Failure		500			"Internal Server Error"
+//	@Failure		504			"External Service Error"
 //	@Router			/users/signup [post]
 //	@Security		Request Signature
 func (h *handler) signUp(c pkg.Context) {
