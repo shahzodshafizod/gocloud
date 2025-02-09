@@ -328,25 +328,6 @@ make tests-cover
 make tests-clear  # Clears generated test-cover.out files
 ```
 
-### Generate Swagger API Documentation
-```sh
-make swagger-generate
-```
-
-### Installing Migration CLI Tool (golang-migrate)
-```sh
-curl -L https://github.com/golang-migrate/migrate/releases/download/$version/migrate.$os-$arch.tar.gz | tar xvz
-# example: curl -L https://github.com/golang-migrate/migrate/releases/download/v4.18.2/migrate.linux-amd64.tar.gz | tar -xvz
-
-mv migrate ~/go/bin/
-# you can find new releases at: https://github.com/golang-migrate/migrate/releases
-```
-
-To create a migration use the following command:
-```sh
-make migration-create name=<MIGRATION_NAME> dir=<MIGRATION_DIRECTORY>
-# example: make migration-create name=partners_init dir=migrations/partners
-```
 ---
 
 ## On-Premises Implementations
@@ -365,30 +346,30 @@ In this branch, I have implemented a variety of on-premises solutions, utilizing
 
 ---
 
+### Preconfiguration of Push Notifications
+1. Create a Web App on [OneSignal](https://onesignal.com) and copy the App ID.
+2. Set `ONESIGNAL_APP_ID` in `configs/config.env`.
+3. In [OneSignal Dashboard](https://dashboard.onesignal.com/), go to "Settings > Keys & IDs", generate an API Key, and set `ONESIGNAL_REST_API_KEY` in `configs/config.env`.
+4. Update `appId` in `pkg/onprem/onesignal/index.html`.
+
 ## Setting Up and Running the Application (on Docker)
 
 ### Prerequisites
 - **Docker & Docker Compose**
 - **Docker Images**: Ensure all required Docker images are available locally or accessible from a container registry.
 
-### 1. Configure Push Notifications
-1. Create a Web App on [OneSignal](https://onesignal.com) and copy the App ID.
-2. Set `ONESIGNAL_APP_ID` in `configs/config.env`.
-3. In [OneSignal Dashboard](https://dashboard.onesignal.com/), go to "Settings > Keys & IDs", generate an API Key, and set `ONESIGNAL_REST_API_KEY` in `configs/config.env`.
-4. Update `appId` in `pkg/onprem/onesignal/index.html`.
-
-### 2. Create a Docker Network
+### 1. Create a Docker Network
 ```sh
 docker network create gocloud
 ```
 This ensures communication between services running in different Docker Compose files.
 
-### 3. Start Dependencies
+### 2. Start Dependencies
 ```sh
 docker compose -f pkg/onprem/docker-compose.yml up -d
 ```
 
-### 4. Set Up PostgreSQL Databases
+### 3. Set Up PostgreSQL Databases
 ```sh
 docker exec -it postgres psql -d postgres -U odmin
 # CREATE DATABASE notificationsdb;
@@ -396,18 +377,18 @@ docker exec -it postgres psql -d postgres -U odmin
 # CREATE DATABASE partnersdb;
 ```
 
-### 5. Mapping of the IP address 127.0.0.1 (localhost) to the hostname delivery.local
+### 4. Mapping of the IP address 127.0.0.1 (localhost) to the hostname delivery.local
 ```sh
 echo "127.0.0.1 delivery.local" | sudo tee -a /etc/hosts
 ```
 
-### 6. Configure MinIO
+### 5. Configure MinIO
 1. Access the MinIO console at [`http://delivery.local:9090`](http://delivery.local:9090) (credentials in `pkg/onprem/docker-compose.yml`).  
 2. Go to "Access Keys", create a new access key, and update:
    - `MINIO_ACCESS_KEY` in `configs/config.env`
    - `MINIO_SECRET_KEY` in `configs/config.env`
 
-### 7. Build Docker Images
+### 6. Build Docker Images
 ```sh
 make docker-build
 
@@ -415,7 +396,7 @@ make docker-build
 docker build -t delivery/api -f cmd/api/Dockerfile .
 ```
 
-### 8. Build and Start Application Services
+### 7. Start Application Services
 ```sh
 docker compose up -d
 
@@ -482,28 +463,20 @@ kubectl -n gocloud create configmap migrationorders --from-file=migrations/order
 kubectl -n gocloud create configmap migrationpartners --from-file=migrations/partners/
 ```
 
-### 4. Apply Kubernetes Manifests
+### 4. Apply Kubernetes Dependencies Manifests
 ```sh
 kubectl apply -f pkg/onprem/k8s/
-kubectl apply -f k8s/
 ```
 
 ### 5. Set Up PostgreSQL Databases
 ```sh
-kubectl -n gocloud exec -it postgres -- psql -d postgres -U odmin
+kubectl -n gocloud exec -it <POSTGRES_POD_NAME> -- psql -d postgres -U odmin
 # CREATE DATABASE notificationsdb;
 # CREATE DATABASE ordersdb;
 # CREATE DATABASE partnersdb;
 ```
 
-### 6. Configure Keycloak Frontend URL
-
-Set the Frontend URL in Keycloak to ensure correct confirmation callback URLs in emails:
-
-1. Go to **Realm Settings > General**.
-2. Set **Frontend URL** to: `http://keycloak.delivery.local/`
-
-### 7. Map Minikube IP to Ingress Hostnames
+### 6. Map Minikube IP to Ingress Hostnames
 ```sh
 echo "$(minikube ip) delivery.local" | sudo tee -a /etc/hosts
 echo "$(minikube ip) jaeger.delivery.local" | sudo tee -a /etc/hosts
@@ -511,6 +484,19 @@ echo "$(minikube ip) keycloak.delivery.local" | sudo tee -a /etc/hosts
 echo "$(minikube ip) mailhog.delivery.local" | sudo tee -a /etc/hosts
 echo "$(minikube ip) minio.delivery.local" | sudo tee -a /etc/hosts
 echo "$(minikube ip) push.delivery.local" | sudo tee -a /etc/hosts
+```
+
+### 7. Configure Keycloak Frontend URL
+
+Set the Frontend URL in Keycloak to ensure correct confirmation callback URLs in emails:
+
+1. Visit: http://keycloak.delivery.local/admin/delivery/console/
+2. Go to **Realm Settings > General**.
+3. Set **Frontend URL** to: `http://keycloak.delivery.local/`
+
+### 8. Apply Kubernetes Application Manifests
+```sh
+kubectl apply -f k8s/
 ```
 
 ### Access Application Components
